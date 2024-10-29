@@ -11,7 +11,15 @@ const App: React.FC = () => {
     setLoading(true)
     try {
       const result = await axios.post('/api/generate', { input })
-      setResponse(result.data.response)
+
+      //   console.dir(`result: ${result}`)
+      //   console.log(JSON.stringify(result, null, 2))
+
+      //   setResponse(result.data.response)
+      setResponse(result.data.message)
+
+      //! why it's null in console
+      console.log(`result: ${response}`)
     } catch (error) {
       console.error('Error fetching response:', error)
       setResponse('An error occurred.')
