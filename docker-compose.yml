@@ -29,9 +29,25 @@ services:
       KAFKA_BROKER_ID: 1
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT
-      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092
+      # KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092
+      # Name service `kafka` so it’s accessible from other containers
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
       KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:9092
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+
+  llm_service:
+    build:
+      context: ./llm_service
+    env_file:
+      - ./llm_service/.env
+    depends_on:
+      - kafka
+    networks:
+      - kafka_network
+
+networks:
+  kafka_network:
+    driver: bridge
 # ZOOKEEPER_CLIENT_PORT: Defines the port Zookeeper will run on (2181 by default).
 # KAFKA_ADVERTISED_LISTENERS: This sets the Kafka listener to localhost:9092, which makes it accessible from your local machine.
 # KAFKA_LISTENERS: Configures Kafka to listen on all network interfaces (0.0.0.0:9092), making it available within the Docker network.
