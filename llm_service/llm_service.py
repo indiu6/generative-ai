@@ -8,11 +8,13 @@ from dotenv import load_dotenv
 load_dotenv()
 
 openai.api_key = os.getenv("OPENAI_API_KEY")
+
 kafka_bootstrap_servers = os.getenv("KAFKA_BOOTSTRAP_SERVERS")
 input_topic = os.getenv("INPUT_TOPIC")
 output_topic = os.getenv("OUTPUT_TOPIC")
 
 # Initialize Kafka Consumer and Producer
+# Listens to messages on the generate-text topic.
 consumer = KafkaConsumer(
     input_topic,
     bootstrap_servers=[kafka_bootstrap_servers],
@@ -22,12 +24,14 @@ consumer = KafkaConsumer(
     value_deserializer=lambda x: json.loads(x.decode("utf-8")),
 )
 
+# Kafka Producer: Sends responses back to Kafka on the response-topic.
 producer = KafkaProducer(
     bootstrap_servers=[kafka_bootstrap_servers],
     value_serializer=lambda x: json.dumps(x).encode("utf-8"),
 )
 
 
+# Uses OpenAI’s API to generate a response based on the input prompt.
 def handle_request(input_text):
     """
     Send a prompt to OpenAI and retrieve the response text.
