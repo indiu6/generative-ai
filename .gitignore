@@ -1,0 +1,4 @@
+# Virtual environment specific folders
+venv/
+.env
+llm_service/.DS_Store
