@@ -2,6 +2,8 @@ import express from 'express'
 import { Kafka } from 'kafkajs'
 import dotenv from 'dotenv'
 
+// npx ts-node src/server.js
+
 dotenv.config()
 
 const app = express()

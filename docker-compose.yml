@@ -1,0 +1,39 @@
+# This file will define services for Kafka and Zookeeper.
+
+# This command will start both Kafka and Zookeeper in detached mode.
+# docker-compose up -d
+
+# Verifying Kafka Setup: You can confirm Kafka is running by listing topics or checking logs.
+# docker exec -it <kafka_container_id> kafka-topics --bootstrap-server localhost:9092 --list
+
+# Replace <kafka_container_id> with your Kafka container ID, which you can find using:
+# docker ps
+# f28db9dadf9a
+
+services:
+  zookeeper:
+    image: confluentinc/cp-zookeeper:7.5.0
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+    ports:
+      - '2181:2181'
+
+  kafka:
+    image: confluentinc/cp-kafka:7.5.0
+    depends_on:
+      - zookeeper
+    ports:
+      - '9092:9092'
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092
+      KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:9092
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+# ZOOKEEPER_CLIENT_PORT: Defines the port Zookeeper will run on (2181 by default).
+# KAFKA_ADVERTISED_LISTENERS: This sets the Kafka listener to localhost:9092, which makes it accessible from your local machine.
+# KAFKA_LISTENERS: Configures Kafka to listen on all network interfaces (0.0.0.0:9092), making it available within the Docker network.
+# KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: Specifies the protocol used, in this case, PLAINTEXT.
+# KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: Set to 1 for a single-node setup (no replication).
