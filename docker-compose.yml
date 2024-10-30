@@ -40,11 +40,11 @@ services:
       # KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
       KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:9092
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
-    # healthcheck:
-    #   test: ['CMD', 'nc', '-z', 'localhost', '9092']
-    #   interval: 10s
-    #   timeout: 5s
-    #   retries: 5
+    healthcheck:
+      test: ['CMD', 'nc', '-z', 'localhost', '9092']
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
   # llm_service: Defines the Python microservice configuration.
   # build.context: Specifies the llm_service directory as the context for building the Docker image.
@@ -60,8 +60,8 @@ services:
       - kafka
       # kafka:
       #   condition: service_healthy
-    # networks:
-    #   - kafka_network
-# networks:
-#   kafka_network:
-#     driver: bridge
+    networks:
+      - kafka_network
+networks:
+  kafka_network:
+    driver: bridge

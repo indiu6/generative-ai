@@ -19,7 +19,8 @@ const App: React.FC = () => {
       setResponse(result.data.message)
 
       //! why it's null in console
-      console.log(`result: ${response}`)
+      console.log(`result.data.message: ${result.data.message}`)
+      console.log(`response: ${response}`)
     } catch (error) {
       console.error('Error fetching response:', error)
       setResponse('An error occurred.')
