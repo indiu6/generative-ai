@@ -2,10 +2,24 @@
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-## Available Scripts
+## Available Scripts using Nodemon
 
-In the project directory, you can run:
+For Development: Use nodemon to watch for changes and automatically restart the server:
 
-### `npx ts-node src/server.js`
+```bash
+npm run dev
+```
 
-Runs the Node.js Express.js server in the development mode.
+For Production:
+
+Compile the TypeScript files:
+
+```bash
+npx tsc
+```
+
+Run the compiled JavaScript files from the dist directory:
+
+```bash
+npm start
+```
