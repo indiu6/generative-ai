@@ -1,8 +1,8 @@
-import express from 'express'
-import { Kafka } from 'kafkajs'
+import express, { Request, Response } from 'express'
+import { Kafka, Admin, Consumer, Producer } from 'kafkajs'
 import dotenv from 'dotenv'
-import WebSocket, { WebSocketServer } from 'ws'
-import http from 'http'
+import WebSocket, { WebSocketServer, WebSocket as WSClient } from 'ws'
+import http, { Server as HTTPServer } from 'http'
 
 // npx ts-node src/server.js
 
@@ -12,23 +12,23 @@ import http from 'http'
 dotenv.config()
 
 const app = express()
-const port = process.env.PORT || 8080
+const port: string | number = process.env.PORT || 8080
 
 // Kafka configuration
 const kafka = new Kafka({
     clientId: 'ai-backend',
     brokers: [process.env.KAFKA_BROKER || 'localhost:9092'],
 })
-const producer = kafka.producer()
-const consumer = kafka.consumer({ groupId: 'llm-service-group' })
-const admin = kafka.admin()
+const producer: Producer = kafka.producer()
+const consumer: Consumer = kafka.consumer({ groupId: 'llm-service-group' })
+const admin: Admin = kafka.admin()
 
 // Middleware
 app.use(express.json())
 
 // HTTP endpoint to receive prompt requests
-app.post('/api/generate', async (req, res) => {
-    const { input } = req.body
+app.post('/api/generate', async (req: Request, res: Response) => {
+    const { input }: { input: string } = req.body
 
     try {
         await producer.connect()
@@ -50,11 +50,11 @@ app.listen(port, () => {
 })
 
 // Set up HTTP server and WebSocket server
-const server = http.createServer(app)
-const wss = new WebSocketServer({ server })
+const server: HTTPServer = http.createServer(app)
+const wss: WebSocketServer = new WebSocketServer({ server })
 
 // WebSocket connection handler
-wss.on('connection', (ws) => {
+wss.on('connection', (ws: WSClient) => {
     console.log('Client connected to WebSocket')
 
     ws.on('close', () => {
@@ -63,7 +63,7 @@ wss.on('connection', (ws) => {
 })
 
 // Function to configure Kafka topic retention policy
-const configureTopicRetention = async () => {
+const configureTopicRetention = async (): Promise<void> => {
     await admin.connect()
     try {
         await admin.createTopics({
@@ -87,13 +87,13 @@ const configureTopicRetention = async () => {
 }
 
 // Start Kafka consumer to listen on `response-topic`
-const startConsumer = async () => {
+const startConsumer = async (): Promise<void> => {
     await consumer.connect()
     await consumer.subscribe({ topic: 'response-topic', fromBeginning: false })
 
     await consumer.run({
         eachMessage: async ({ message }) => {
-            const responseText = message.value ? message.value.toString() : ''
+            const responseText: string = message.value ? message.value.toString() : ''
             console.log(`Received message: ${responseText}`)
 
             // Broadcast message to all WebSocket clients
