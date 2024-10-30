@@ -1,5 +1,5 @@
 import express, { Request, Response } from 'express'
-import { Kafka, Admin, Consumer, Producer } from 'kafkajs'
+import { Kafka, Partitioners, Admin, Consumer, Producer } from 'kafkajs'
 import dotenv from 'dotenv'
 import WebSocket, { WebSocketServer, WebSocket as WSClient } from 'ws'
 import http, { Server as HTTPServer } from 'http'
@@ -66,18 +66,21 @@ wss.on('connection', (ws: WSClient) => {
 const configureTopicRetention = async (): Promise<void> => {
     await admin.connect()
     try {
-        await admin.createTopics({
-            topics: [
-                {
-                    topic: 'generate-text',
-                    numPartitions: 1,
-                    replicationFactor: 1,
-                    configEntries: [
-                        { name: 'retention.ms', value: '600000' },  // Set retention to 10 minutes
-                    ],
-                },
-            ],
-        })
+        const topicsMetadata = await admin.fetchTopicMetadata({ topics: ['generate-text'] });
+        if (!topicsMetadata.topics.length) {
+            await admin.createTopics({
+                topics: [
+                    {
+                        topic: 'generate-text',
+                        numPartitions: 1,
+                        replicationFactor: 1,
+                        configEntries: [
+                            { name: 'retention.ms', value: '600000' },  // Set retention to 10 minutes
+                        ],
+                    },
+                ],
+            })
+        }
         console.log('Kafka topic retention policy set to 10 minutes')
     } catch (error) {
         console.error('Error setting topic configuration:', error)
