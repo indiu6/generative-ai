@@ -47,12 +47,17 @@ def handle_request(input_text):
     Send a prompt to OpenAI and retrieve the response text.
     """
     try:
-        response = openai.Completion.create(
-            engine="text-davinci-003",  # Or another model like gpt-3.5-turbo
-            prompt=input_text,
-            max_tokens=100,
+        # response = openai.Completion.create(
+        #     engine="text-davinci-003",  # Or another model like gpt-3.5-turbo
+        #     prompt=input_text,
+        #     max_tokens=100,
+        # )
+        response = openai.ChatCompletion.create(
+            model="gpt-3.5-turbo",  # Replace with "gpt-4" if you have access and prefer GPT-4
+            messages=[{"role": "user", "content": input_text}],
         )
-        return response.choices[0].text.strip()
+        # return response.choices[0].text.strip()
+        return response.choices[0].message["content"].strip()
     except Exception as e:
         print(f"Error with OpenAI API: {e}")
         return "Error generating response."
