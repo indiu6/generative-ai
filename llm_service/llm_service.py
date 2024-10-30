@@ -40,7 +40,7 @@ consumer = KafkaConsumer(
     bootstrap_servers=[os.getenv("KAFKA_BOOTSTRAP_SERVERS")],
     auto_offset_reset="earliest",
     enable_auto_commit=True,
-    group_id="llm-service-group",
+    # group_id="llm-service-group",
     # value_deserializer=lambda x: json.loads(x.decode("utf-8")),
     value_deserializer=safe_deserialize,
 )
@@ -48,7 +48,7 @@ consumer = KafkaConsumer(
 # Kafka Producer: Sends responses back to Kafka on the response-topic.
 producer = KafkaProducer(
     bootstrap_servers=[kafka_bootstrap_servers],
-    value_serializer=lambda x: json.dumps(x).encode("utf-8"),
+    value_serializer=safe_deserialize,
 )
 
 
