@@ -13,15 +13,25 @@ kafka_bootstrap_servers = os.getenv("KAFKA_BOOTSTRAP_SERVERS")
 input_topic = os.getenv("INPUT_TOPIC")
 output_topic = os.getenv("OUTPUT_TOPIC")
 
+
+def safe_deserialize(value):
+    try:
+        return json.loads(value.decode("utf-8"))
+    except (json.JSONDecodeError, AttributeError):
+        print("Received a malformed or empty message.")
+        return None  # Return None if decoding fails
+
+
 # Initialize Kafka Consumer and Producer
 # Listens to messages on the generate-text topic.
 consumer = KafkaConsumer(
-    input_topic,
-    bootstrap_servers=[kafka_bootstrap_servers],
+    os.getenv("INPUT_TOPIC"),
+    bootstrap_servers=[os.getenv("KAFKA_BOOTSTRAP_SERVERS")],
     auto_offset_reset="earliest",
     enable_auto_commit=True,
     group_id="llm-service-group",
-    value_deserializer=lambda x: json.loads(x.decode("utf-8")),
+    # value_deserializer=lambda x: json.loads(x.decode("utf-8")),
+    value_deserializer=safe_deserialize,
 )
 
 # Kafka Producer: Sends responses back to Kafka on the response-topic.
@@ -53,6 +63,10 @@ print("LLM Service is running and waiting for messages...")
 # Listen to Kafka and process messages
 for message in consumer:
     input_data = message.value
+
+    if input_data is None:
+        continue  # Skip processing if the message is malformed or empty
+
     input_text = input_data.get("input", "")
 
     if input_text:

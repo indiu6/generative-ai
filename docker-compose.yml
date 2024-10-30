@@ -1,5 +1,11 @@
 # This file will define services for Kafka and Zookeeper.
 
+# ZOOKEEPER_CLIENT_PORT: Defines the port Zookeeper will run on (2181 by default).
+# KAFKA_ADVERTISED_LISTENERS: This sets the Kafka listener to localhost:9092, which makes it accessible from your local machine.
+# KAFKA_LISTENERS: Configures Kafka to listen on all network interfaces (0.0.0.0:9092), making it available within the Docker network.
+# KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: Specifies the protocol used, in this case, PLAINTEXT.
+# KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: Set to 1 for a single-node setup (no replication).
+
 # This command will start both Kafka and Zookeeper in detached mode.
 # docker-compose up -d
 
@@ -29,11 +35,21 @@ services:
       KAFKA_BROKER_ID: 1
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT
-      # KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092
       # Name service `kafka` so it’s accessible from other containers
-      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
+      # KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
       KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:9092
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+    # healthcheck:
+    #   test: ['CMD', 'nc', '-z', 'localhost', '9092']
+    #   interval: 10s
+    #   timeout: 5s
+    #   retries: 5
+
+  # llm_service: Defines the Python microservice configuration.
+  # build.context: Specifies the llm_service directory as the context for building the Docker image.
+  # env_file: Loads environment variables from llm_service/.env for use in the Python application.
+  # depends_on: Ensures kafka starts before llm_service to prevent connection issues on startup.
 
   llm_service:
     build:
@@ -42,14 +58,10 @@ services:
       - ./llm_service/.env
     depends_on:
       - kafka
-    networks:
-      - kafka_network
-
-networks:
-  kafka_network:
-    driver: bridge
-# ZOOKEEPER_CLIENT_PORT: Defines the port Zookeeper will run on (2181 by default).
-# KAFKA_ADVERTISED_LISTENERS: This sets the Kafka listener to localhost:9092, which makes it accessible from your local machine.
-# KAFKA_LISTENERS: Configures Kafka to listen on all network interfaces (0.0.0.0:9092), making it available within the Docker network.
-# KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: Specifies the protocol used, in this case, PLAINTEXT.
-# KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: Set to 1 for a single-node setup (no replication).
+      # kafka:
+      #   condition: service_healthy
+    # networks:
+    #   - kafka_network
+# networks:
+#   kafka_network:
+#     driver: bridge

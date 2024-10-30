@@ -1,3 +1,7 @@
+# kafka-python: For Kafka interaction (consuming and producing messages).
+# openai: For making requests to the OpenAI API.
+# python-dotenv: For loading environment variables from the .env file.
+
 kafka-python
 openai
 python-dotenv
