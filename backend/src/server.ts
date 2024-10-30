@@ -21,6 +21,7 @@ const kafka = new Kafka({
 })
 const producer = kafka.producer()
 const consumer = kafka.consumer({ groupId: 'llm-service-group' })
+const admin = kafka.admin()
 
 // Middleware
 app.use(express.json())
@@ -61,6 +62,30 @@ wss.on('connection', (ws) => {
     })
 })
 
+// Function to configure Kafka topic retention policy
+const configureTopicRetention = async () => {
+    await admin.connect()
+    try {
+        await admin.createTopics({
+            topics: [
+                {
+                    topic: 'generate-text',
+                    numPartitions: 1,
+                    replicationFactor: 1,
+                    configEntries: [
+                        { name: 'retention.ms', value: '600000' },  // Set retention to 10 minutes
+                    ],
+                },
+            ],
+        })
+        console.log('Kafka topic retention policy set to 10 minutes')
+    } catch (error) {
+        console.error('Error setting topic configuration:', error)
+    } finally {
+        await admin.disconnect()
+    }
+}
+
 // Start Kafka consumer to listen on `response-topic`
 const startConsumer = async () => {
     await consumer.connect()
@@ -81,4 +106,6 @@ const startConsumer = async () => {
     })
 }
 
+// Initialize topic configuration and consumer
+configureTopicRetention().catch(console.error)
 startConsumer().catch(console.error)
