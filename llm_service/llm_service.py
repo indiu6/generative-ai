@@ -1,10 +1,8 @@
 import json
 import os
-
 import openai
 from openai import OpenAI
-
-from kafka import KafkaConsumer, KafkaProducer
+from kafka import KafkaConsumer, KafkaProducer, KafkaAdminClient, NewTopic
 from dotenv import load_dotenv
 
 # Load environment variables
@@ -32,6 +30,33 @@ def safe_deserialize(value):
         print("Received a malformed or empty message.")
         return None  # Return None if decoding fails
 
+
+# Configure Kafka topic retention
+def configure_topic_retention():
+    admin_client = KafkaAdminClient(
+        bootstrap_servers=[kafka_bootstrap_servers], client_id="admin-client"
+    )
+
+    topic_config = {"retention.ms": "600000"}  # Set retention to 10 minutes
+
+    new_topic = NewTopic(
+        name=input_topic,
+        num_partitions=1,
+        replication_factor=1,
+        topic_configs=topic_config,
+    )
+
+    try:
+        admin_client.create_topics(new_topics=[new_topic], validate_only=False)
+        print(f"Retention policy set to 10 minutes for topic {input_topic}")
+    except Exception as e:
+        print(f"Topic configuration error or topic already exists: {e}")
+    finally:
+        admin_client.close()
+
+
+# Initialize Kafka Consumer and Producer
+configure_topic_retention()  # Apply retention policy at startup
 
 # Initialize Kafka Consumer and Producer
 # Listens to messages on the generate-text topic.
