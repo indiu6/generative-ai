@@ -61,10 +61,9 @@ services:
     env_file:
       - ./llm_service/.env
     depends_on:
-      - kafka
-      # kafka:
-      #   condition: service_healthy
-    # Below are optional ?
+      # - kafka
+      kafka:
+        condition: service_healthy
     networks:
       - app-network
 

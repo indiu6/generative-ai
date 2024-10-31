@@ -19,7 +19,7 @@ client = OpenAI(
 )
 
 
-kafka_bootstrap_servers = os.getenv("KAFKA_BOOTSTRAP_SERVERS")
+kafka_bootstrap_servers = os.getenv("KAFKA_BOOTSTRAP_SERVERS", "kafka:9092")
 input_topic = os.getenv("INPUT_TOPIC")
 output_topic = os.getenv("OUTPUT_TOPIC")
 
