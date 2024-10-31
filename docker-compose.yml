@@ -37,18 +37,18 @@ services:
       KAFKA_BROKER_ID: 1
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT
-      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092
+      # KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092
       # Name service `kafka` so it’s accessible from other containers
-      # KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
       KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:9092
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
     networks:
       - app-network
-    # healthcheck:
-    #   test: ['CMD', 'nc', '-z', 'localhost', '9092']
-    #   interval: 10s
-    #   timeout: 5s
-    #   retries: 5
+    healthcheck:
+      test: ['CMD', 'nc', '-z', 'localhost', '9092']
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
   # llm_service: Defines the Python microservice configuration.
   # build.context: Specifies the llm_service directory as the context for building the Docker image.
@@ -71,6 +71,8 @@ services:
   backend:
     build:
       context: ./backend
+    env_file:
+      - ./backend/.env
     ports:
       - '8080:8080'
       - '8081:8081'

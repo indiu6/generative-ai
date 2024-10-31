@@ -12,12 +12,16 @@ import http, { Server as HTTPServer } from 'http'
 dotenv.config()
 
 const app = express()
-const port: string | number = process.env.PORT || 8080
+// const port: string | number = process.env.PORT || 8080
+const port: number = parseInt(process.env.PORT || '8080', 10);
+const wsPort: number = parseInt(process.env.WS_PORT || '8081', 10);
 
 // Kafka configuration
 const kafka = new Kafka({
     clientId: 'ai-backend',
-    brokers: [process.env.KAFKA_BROKER || 'localhost:9092'],
+    // brokers: [process.env.KAFKA_BROKER || 'localhost:9092'],
+    brokers: [process.env.KAFKA_BROKER || 'kafka:9092'],
+    // brokers: [process.env.KAFKA_BROKER || 'host.docker.internal:9092'],
 })
 const producer: Producer = kafka.producer()
 const consumer: Consumer = kafka.consumer({ groupId: 'llm-service-group' })
@@ -45,9 +49,12 @@ app.post('/api/generate', async (req: Request, res: Response) => {
     }
 })
 
-app.listen(port, () => {
-    console.log(`Server is running on port ${port}`)
-})
+// app.listen(port, () => {
+//     console.log(`Server is running on port ${port}`)
+// })
+app.listen(port, '0.0.0.0', () => {
+    console.log(`Server is running on port ${port}`);
+});
 
 // Set up HTTP server and WebSocket server
 const server: HTTPServer = http.createServer(app)
@@ -66,8 +73,8 @@ wss.on('connection', (ws: WSClient) => {
 // server.listen(port, () => {
 //     console.log(`WS Server is running on port ${port}`)
 // })
-server.listen(8081, () => {
-    console.log(`WS Server is running on port 8081`)
+server.listen(wsPort, () => {
+    console.log(`WS Server is running on port ${wsPort}`)
 })
 
 // Function to configure Kafka topic retention policy
