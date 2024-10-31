@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import axios from 'axios'
 import {
   Container,
@@ -19,6 +19,7 @@ const App: React.FC = () => {
   const [input, setInput] = useState<string>('')
   const [messages, setMessages] = useState<Message[]>([])
   const [loading, setLoading] = useState<boolean>(false)
+  const messagesEndRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     // Establish WebSocket connection to the backend
@@ -56,6 +57,12 @@ const App: React.FC = () => {
       socket.close()
     }
   }, [])
+
+  useEffect(() => {
+    if (messagesEndRef.current) {
+      messagesEndRef.current.scrollIntoView({ behavior: 'smooth' })
+    }
+  }, [messages])
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault()
@@ -151,6 +158,8 @@ const App: React.FC = () => {
             <CircularProgress size={20} />
           </Box>
         )}
+
+        <div ref={messagesEndRef} />
       </Paper>
 
       <Box component="form" onSubmit={handleSubmit} display="flex" gap={1}>

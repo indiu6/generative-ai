@@ -1,4 +1,4 @@
-# Generative-AI-Playground-v0.1 ![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)
+# Generative-AI-Playground-v0.9 ![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)
 
 A basic Generative AI microservice integrates Node.js with TypeScript and Python for backend services.
 
@@ -10,7 +10,7 @@ ElasticSearch for search functionality, OpenAI's API for LLMs.
 
 The OpenAI Realtime API is a stateful, event-based API that communicates over a WebSocket.
 
-The app will be deployed using Kubernetes and monitored with DataDog, while React handles the frontend interface.
+The app will be deployed using Kubernetes, AWS EKS, ECR and monitored with DataDog, while React handles the frontend interface.
 
 ## Architecture Overview
 
@@ -27,7 +27,7 @@ The app will be deployed using Kubernetes and monitored with DataDog, while Reac
    - _Postgres_ for structured data like user profiles, logs, and configuration.
    - _Pinecone_ for vector embeddings to store and retrieve contextual information.
    - _ElasticSearch_ for fast, keyword-based search.
-6. **Deployment**: _Kubernetes_ for _Docker_ container orchestration, _AWS_ for infrastructure, and _DataDog_ for monitoring
+6. **Deployment**: _Kubernetes_ for _Docker_ container orchestration, _AWS_ EKS, ECR for infrastructure, and _DataDog_ for monitoring
 
 ## License
 
