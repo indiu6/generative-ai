@@ -66,6 +66,9 @@ wss.on('connection', (ws: WSClient) => {
 // server.listen(port, () => {
 //     console.log(`WS Server is running on port ${port}`)
 // })
+server.listen(8081, () => {
+    console.log(`WS Server is running on port 8081`)
+})
 
 // Function to configure Kafka topic retention policy
 const configureTopicRetention = async (): Promise<void> => {

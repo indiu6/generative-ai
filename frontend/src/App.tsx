@@ -8,7 +8,8 @@ const App: React.FC = () => {
 
   useEffect(() => {
     // Establish WebSocket connection to the backend
-    const socket = new WebSocket('ws://localhost:8080')
+    // const socket = new WebSocket('ws://localhost:8080')
+    const socket = new WebSocket('ws://localhost:8081')
 
     socket.onopen = () => {
       console.log('Connected to WebSocket server')
@@ -46,7 +47,6 @@ const App: React.FC = () => {
 
       //! why it's null in console
       console.log(`result.data.message: ${result.data.message}`)
-      console.log(`response: ${response}`)
     } catch (error) {
       console.error('Error fetching response:', error)
       setResponse('An error occurred.')
