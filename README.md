@@ -20,10 +20,10 @@ The app will be deployed using Kubernetes and monitored with DataDog, while Reac
    - **WebSocket Server**: A WebSocket server runs alongside the HTTP server, forwarding responses from Kafka’s `response-topic` to the frontend.
 3. **LLM Integration**: A _Python_-based microservice interacts with _OpenAI API_ for LLM queries.
    - This service consumes prompts from Kafka’s `generate-text` topic, processes them with OpenAI, and produces the response to `response-topic`.
-   - Integrate _WebSocket_ and configure code based on [OpenAI Realtime API doc](https://platform.openai.com/docs/guides/realtime/overview)
+   - Integrate _WebSocket_ and configure code based on [OpenAI Realtime API (beta) doc](https://platform.openai.com/docs/guides/realtime/overview)
    - Check usage, bill, balance of my API key, [OpenAI API Usage check](https://platform.openai.com/settings/organization/usage)
 4. **Messaging**: _Apache Kafka_ to handle message queues and asynchronous tasks.
-5. **Storage**:
+5. **Storage**: (TBD)
    - _Postgres_ for structured data like user profiles, logs, and configuration.
    - _Pinecone_ for vector embeddings to store and retrieve contextual information.
    - _ElasticSearch_ for fast, keyword-based search.
