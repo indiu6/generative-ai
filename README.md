@@ -1,11 +1,16 @@
 # generative-ai ![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)
 
-A basic Generative AI microservice integrates Node.js with TypeScript and Python for backend services,
-leverages Apache Kafka for messaging,
-Postgres for structured data storage,
-Pinecone for vector storage, ElasticSearch for search functionality, OpenAI's API for LLMs.
+A basic Generative AI microservice integrates Node.js with TypeScript and Python for backend services.
 
-The app is deployed using Kubernetes and monitored with DataDog, while React handles the frontend interface.
+Leverages Apache Kafka for messaging.
+
+Postgres for structured data storage, Pinecone for vector storage.
+
+ElasticSearch for search functionality, OpenAI's API for LLMs.
+
+The OpenAI Realtime API is a stateful, event-based API that communicates over a WebSocket.
+
+The app will be deployed using Kubernetes and monitored with DataDog, while React handles the frontend interface.
 
 ## Architecture Overview
 
@@ -15,6 +20,8 @@ The app is deployed using Kubernetes and monitored with DataDog, while React han
    - **WebSocket Server**: A WebSocket server runs alongside the HTTP server, forwarding responses from Kafka’s `response-topic` to the frontend.
 3. **LLM Integration**: A _Python_-based microservice interacts with _OpenAI API_ for LLM queries.
    - This service consumes prompts from Kafka’s `generate-text` topic, processes them with OpenAI, and produces the response to `response-topic`.
+   - Integrate _WebSocket_ and configure code based on [OpenAI Realtime API doc](https://platform.openai.com/docs/guides/realtime/overview)
+   - Check usage, bill, balance of my API key, [OpenAI API Usage check](https://platform.openai.com/settings/organization/usage)
 4. **Messaging**: _Apache Kafka_ to handle message queues and asynchronous tasks.
 5. **Storage**:
    - _Postgres_ for structured data like user profiles, logs, and configuration.
