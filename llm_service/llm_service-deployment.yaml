@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: llm-service
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: llm-service
+  template:
+    metadata:
+      labels:
+        app: llm-service
+    spec:
+      containers:
+        - name: llm-service
+          image: 134428267718.dkr.ecr.us-east-1.amazonaws.com/llm_service:latest
+          ports:
+            - containerPort: 9092
+          env:
+            - name: KAFKA_BOOTSTRAP_SERVERS
+              value: 'kafka:9092'
+            - name: INPUT_TOPIC
+              value: 'generate-text'
+            - name: OUTPUT_TOPIC
+              value: 'response-topic'
+            - name: OPENAI_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: openai-api-key
+                  key: api_key

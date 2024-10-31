@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: backend
+  template:
+    metadata:
+      labels:
+        app: backend
+    spec:
+      containers:
+        - name: backend
+          image: 134428267718.dkr.ecr.us-east-1.amazonaws.com/backend:latest
+          ports:
+            - containerPort: 8080
+            - containerPort: 8081
+          env:
+            - name: KAFKA_BROKER
+              value: 'kafka:9092'
