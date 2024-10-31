@@ -6,6 +6,12 @@ source .venv/bin/activate
 pip install kafka-python openai python-dotenv
 ```
 
+## From the project root, run python llm_service in local
+
+```bash
+ python3 llm_service.py
+```
+
 ## From the project root, build and run the Docker container for the Python microservice
 
 ```bash

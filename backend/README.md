@@ -1,8 +1,4 @@
-# Getting Started
-
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
-
-## Available Scripts using Nodemon
+# Available Scripts using Nodemon
 
 For Development: Use nodemon to watch for changes and automatically restart the server:
 
