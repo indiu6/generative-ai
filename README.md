@@ -29,6 +29,8 @@ The app will be deployed using Kubernetes and monitored with DataDog, while Reac
    - _ElasticSearch_ for fast, keyword-based search.
 6. **Deployment**: _Kubernetes_ for _Docker_ container orchestration, AWS for infrastructure, and DataDog for monitoring
 
+${\color{red} This text is red}$
+
 ## License
 
 This project is licensed under the Apache License 2.0 - see the [LICENSE](LICENSE) file for details.
