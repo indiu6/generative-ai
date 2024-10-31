@@ -1,4 +1,4 @@
-# generative-ai ![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)
+# Generative-AI-Playground-v0.1 ![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)
 
 A basic Generative AI microservice integrates Node.js with TypeScript and Python for backend services.
 

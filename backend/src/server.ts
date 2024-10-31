@@ -113,7 +113,8 @@ const startConsumer = async (): Promise<void> => {
             // Broadcast message to all WebSocket clients
             wss.clients.forEach((client) => {
                 if (client.readyState === WebSocket.OPEN) {
-                    client.send(JSON.stringify({ response: responseText }))
+                    // client.send(JSON.stringify({ response: responseText }))
+                    client.send(responseText)
                 }
             })
         },
