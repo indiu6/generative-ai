@@ -2,7 +2,8 @@ import json
 import os
 import openai
 from openai import OpenAI
-from kafka import KafkaConsumer, KafkaProducer, KafkaAdminClient, NewTopic
+from kafka import KafkaConsumer, KafkaProducer, KafkaAdminClient
+from kafka.admin import NewTopic
 from dotenv import load_dotenv
 
 # Load environment variables
@@ -73,7 +74,7 @@ consumer = KafkaConsumer(
 # Kafka Producer: Sends responses back to Kafka on the response-topic.
 producer = KafkaProducer(
     bootstrap_servers=[kafka_bootstrap_servers],
-    value_serializer=safe_deserialize,
+    value_serializer=lambda x: json.dumps(x).encode("utf-8"),
 )
 
 

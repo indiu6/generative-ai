@@ -51,6 +51,7 @@ app.listen(port, () => {
 
 // Set up HTTP server and WebSocket server
 const server: HTTPServer = http.createServer(app)
+// Attach WebSocket server to HTTP server
 const wss: WebSocketServer = new WebSocketServer({ server })
 
 // WebSocket connection handler
@@ -61,6 +62,10 @@ wss.on('connection', (ws: WSClient) => {
         console.log('Client disconnected from WebSocket')
     })
 })
+
+// server.listen(port, () => {
+//     console.log(`WS Server is running on port ${port}`)
+// })
 
 // Function to configure Kafka topic retention policy
 const configureTopicRetention = async (): Promise<void> => {
@@ -96,8 +101,11 @@ const startConsumer = async (): Promise<void> => {
 
     await consumer.run({
         eachMessage: async ({ message }) => {
+
+            // console.log(`Received message: ${message}`)
+
             const responseText: string = message.value ? message.value.toString() : ''
-            console.log(`Received message: ${responseText}`)
+            console.log(`Received responseText: ${responseText}`)
 
             // Broadcast message to all WebSocket clients
             wss.clients.forEach((client) => {
