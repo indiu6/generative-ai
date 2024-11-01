@@ -2,7 +2,7 @@ services:
   - type: web
     name: frontend
     runtime: docker
-    dockerfilePath: ./frontend/Dockerfile
+    dockerfilePath: ./frontend/dockerfile
     buildCommand: npm install && npm run build
     startCommand: npm start
     plan: starter
@@ -14,7 +14,7 @@ services:
   - type: web
     name: backend
     runtime: docker
-    dockerfilePath: ./backend/Dockerfile
+    dockerfilePath: ./backend/dockerfile
     buildCommand: npm install && npm run build
     startCommand: npm start
     plan: starter
@@ -28,7 +28,7 @@ services:
   - type: web
     name: llm_service
     runtime: docker
-    dockerfilePath: ./llm_service/Dockerfile
+    dockerfilePath: ./llm_service/dockerfile
     buildCommand: pip install -r requirements.txt
     startCommand: python3 llm_service.py
     plan: starter
