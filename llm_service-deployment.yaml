@@ -17,6 +17,13 @@ spec:
           image: 134428267718.dkr.ecr.us-east-1.amazonaws.com/llm_service:latest
           ports:
             - containerPort: 9092
+          resources:
+            limits:
+              memory: '512Mi'
+              cpu: '500m'
+            requests:
+              memory: '256Mi'
+              cpu: '250m'
           env:
             - name: KAFKA_BOOTSTRAP_SERVERS
               value: 'kafka:9092'
