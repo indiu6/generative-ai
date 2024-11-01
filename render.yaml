@@ -47,7 +47,7 @@ services:
     name: kafka
     runtime: image
     image:
-      url: confluentinc/cp-kafka:latest
+      url: confluentinc/cp-kafka
     plan: free
     autoDeploy: true
     envVars:
@@ -68,7 +68,7 @@ services:
     name: zookeeper
     runtime: image
     image:
-      url: confluentinc/cp-zookeeper:latest
+      url: confluentinc/cp-zookeeper
     plan: free
     autoDeploy: true
     envVars:
