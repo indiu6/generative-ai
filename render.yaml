@@ -1,76 +1,78 @@
 services:
   - type: web
+    plan: free
     name: frontend
     runtime: docker
     dockerfilePath: ./frontend/Dockerfile
     buildCommand: npm install && npm run build
-    startCommand: npm start
-    plan: starter
+    # startCommand: npm start
     autoDeploy: true
     envVars:
       - key: NODE_ENV
         value: production
 
-  # - type: web
-  #   name: backend
-  #   runtime: docker
-  #   dockerfilePath: ./backend/Dockerfile
-  #   buildCommand: npm install && npm run build
-  #   startCommand: npm start
-  #   plan: starter
-  #   autoDeploy: true
-  #   envVars:
-  #     - key: NODE_ENV
-  #       value: production
-  #     - key: KAFKA_BROKER
-  #       value: kafka:9092
+  - type: worker
+    name: backend
+    runtime: docker
+    dockerfilePath: ./backend/Dockerfile
+    buildCommand: npm install && npm run build
+    startCommand: npm start
+    plan: free
+    autoDeploy: true
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: KAFKA_BROKER
+        value: kafka:9092
 
-  # - type: web
-  #   name: llm_service
-  #   runtime: docker
-  #   dockerfilePath: ./llm_service/Dockerfile
-  #   buildCommand: pip install -r requirements.txt
-  #   startCommand: python3 llm_service.py
-  #   plan: starter
-  #   autoDeploy: true
-  #   envVars:
-  #     - key: OPENAI_API_KEY
-  #       value: your_openai_api_key
-  #     - key: KAFKA_BOOTSTRAP_SERVERS
-  #       value: kafka:9092
-  #     - key: INPUT_TOPIC
-  #       value: generate-text
-  #     - key: OUTPUT_TOPIC
-  #       value: response-topic
+  - type: worker
+    name: llm_service
+    runtime: docker
+    dockerfilePath: ./llm_service/Dockerfile
+    buildCommand: pip install -r requirements.txt
+    startCommand: python3 llm_service.py
+    plan: free
+    autoDeploy: true
+    envVars:
+      - key: OPENAI_API_KEY
+        value: your_openai_api_key
+      - key: KAFKA_BOOTSTRAP_SERVERS
+        value: kafka:9092
+      - key: INPUT_TOPIC
+        value: generate-text
+      - key: OUTPUT_TOPIC
+        value: response-topic
 
-  # - type: web
-  #   name: kafka
-  #   runtime: docker
-  #   image: confluentinc/cp-kafka:latest
-  #   plan: starter
-  #   autoDeploy: true
-  #   envVars:
-  #     - key: KAFKA_BROKER_ID
-  #       value: 1
-  #     - key: KAFKA_ZOOKEEPER_CONNECT
-  #       value: zookeeper:2181
-  #     - key: KAFKA_LISTENER_SECURITY_PROTOCOL_MAP
-  #       value: PLAINTEXT:PLAINTEXT
-  #     - key: KAFKA_ADVERTISED_LISTENERS
-  #       value: PLAINTEXT://kafka:9092
-  #     - key: KAFKA_LISTENERS
-  #       value: PLAINTEXT://0.0.0.0:9092
-  #     - key: KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR
-  #       value: 1
+  - type: worker
+    name: kafka
+    runtime: image
+    image:
+      url: docker.io/confluentinc/cp-kafka:latest
+    plan: free
+    autoDeploy: true
+    envVars:
+      - key: KAFKA_BROKER_ID
+        value: 1
+      - key: KAFKA_ZOOKEEPER_CONNECT
+        value: zookeeper:2181
+      - key: KAFKA_LISTENER_SECURITY_PROTOCOL_MAP
+        value: PLAINTEXT:PLAINTEXT
+      - key: KAFKA_ADVERTISED_LISTENERS
+        value: PLAINTEXT://kafka:9092
+      - key: KAFKA_LISTENERS
+        value: PLAINTEXT://0.0.0.0:9092
+      - key: KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR
+        value: 1
 
-  # - type: web
-  #   name: zookeeper
-  #   runtime: docker
-  #   image: confluentinc/cp-zookeeper:latest
-  #   plan: starter
-  #   autoDeploy: true
-  #   envVars:
-  #     - key: ZOOKEEPER_CLIENT_PORT
-  #       value: 2181
-  #     - key: ZOOKEEPER_TICK_TIME
-  #       value: 2000
+  - type: worker
+    name: zookeeper
+    runtime: image
+    image:
+      url: docker.io/confluentinc/cp-zookeeper:latest
+    plan: free
+    autoDeploy: true
+    envVars:
+      - key: ZOOKEEPER_CLIENT_PORT
+        value: 2181
+      - key: ZOOKEEPER_TICK_TIME
+        value: 2000
