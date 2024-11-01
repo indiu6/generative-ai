@@ -18,13 +18,13 @@ spec:
           ports:
             - containerPort: 8080
             - containerPort: 8081
-          resources:
-            limits:
-              memory: '512Mi'
-              cpu: '500m'
-            requests:
-              memory: '256Mi'
-              cpu: '250m'
+          # resources:
+          #   limits:
+          #     memory: '512Mi'
+          #     cpu: '500m'
+          #   requests:
+          #     memory: '256Mi'
+          #     cpu: '250m'
           env:
             - name: KAFKA_BROKER
               value: 'kafka:9092'
