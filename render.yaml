@@ -16,7 +16,7 @@ services:
     runtime: docker
     dockerfilePath: ./backend/Dockerfile
     buildCommand: npm install && npm run build
-    startCommand: npm start
+    # startCommand: npm start
     plan: free
     autoDeploy: true
     envVars:
@@ -30,7 +30,7 @@ services:
     runtime: docker
     dockerfilePath: ./llm_service/Dockerfile
     buildCommand: pip install -r requirements.txt
-    startCommand: python3 llm_service.py
+    # startCommand: python3 llm_service.py
     plan: free
     autoDeploy: true
     envVars:
