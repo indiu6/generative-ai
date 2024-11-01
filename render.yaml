@@ -10,6 +10,7 @@ services:
     envVars:
       - key: NODE_ENV
         value: production
+
   - type: web
     name: backend
     runtime: docker
@@ -23,6 +24,7 @@ services:
         value: production
       - key: KAFKA_BROKER
         value: kafka:9092
+
   - type: web
     name: llm_service
     runtime: docker
@@ -40,11 +42,10 @@ services:
         value: generate-text
       - key: OUTPUT_TOPIC
         value: response-topic
-  - type: web
+
+  - type: worker
     name: kafka
-    runtime: docker
-    dockerfilePath: ./kafka/Dockerfile
-    startCommand: docker-compose up kafka
+    image: confluentinc/cp-kafka:latest
     plan: starter
     autoDeploy: true
     envVars:
@@ -60,18 +61,13 @@ services:
         value: PLAINTEXT://0.0.0.0:9092
       - key: KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR
         value: 1
-  - type: web
+
+  - type: worker
     name: zookeeper
-    runtime: docker
-    dockerfilePath: ./zookeeper/Dockerfile
-    startCommand: docker-compose up zookeeper
+    image: confluentinc/cp-zookeeper:latest
     plan: starter
     autoDeploy: true
     envVars:
-      - key: ZOOKEEPER_CLIENT_PORT
-        value: 2181
-      - key: ZOOKEEPER_TICK_TIME
-        value: 2000
       - key: ZOOKEEPER_CLIENT_PORT
         value: 2181
       - key: ZOOKEEPER_TICK_TIME
