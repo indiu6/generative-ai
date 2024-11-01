@@ -43,10 +43,11 @@ services:
       - key: OUTPUT_TOPIC
         value: response-topic
 
-  - type: worker
+  - type: web
     name: kafka
-    runtime: docker
-    image: confluentinc/cp-kafka
+    runtime: image
+    image:
+      url: docker.io/confluentinc/cp-kafka:latest
     plan: free
     autoDeploy: true
     envVars:
@@ -63,10 +64,11 @@ services:
       - key: KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR
         value: 1
 
-  - type: worker
+  - type: web
     name: zookeeper
     runtime: docker
-    image: confluentinc/cp-zookeeper
+    image:
+      url: docker.io/cconfluentinc/cp-zookeeper:latest
     plan: free
     autoDeploy: true
     envVars:
