@@ -2,7 +2,7 @@ services:
   - type: web
     name: frontend
     runtime: docker
-    dockerfilePath: ./frontend/dockerfile
+    dockerfilePath: ./frontend/Dockerfile
     buildCommand: npm install && npm run build
     startCommand: npm start
     plan: starter
@@ -14,7 +14,7 @@ services:
   - type: web
     name: backend
     runtime: docker
-    dockerfilePath: ./backend/dockerfile
+    dockerfilePath: ./backend/Dockerfile
     buildCommand: npm install && npm run build
     startCommand: npm start
     plan: starter
@@ -28,7 +28,7 @@ services:
   - type: web
     name: llm_service
     runtime: docker
-    dockerfilePath: ./llm_service/dockerfile
+    dockerfilePath: ./llm_service/Dockerfile
     buildCommand: pip install -r requirements.txt
     startCommand: python3 llm_service.py
     plan: starter
@@ -43,8 +43,9 @@ services:
       - key: OUTPUT_TOPIC
         value: response-topic
 
-  - type: worker
+  - type: web
     name: kafka
+    runtime: docker
     image: confluentinc/cp-kafka:latest
     plan: starter
     autoDeploy: true
@@ -62,8 +63,9 @@ services:
       - key: KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR
         value: 1
 
-  - type: worker
+  - type: web
     name: zookeeper
+    runtime: docker
     image: confluentinc/cp-zookeeper:latest
     plan: starter
     autoDeploy: true
