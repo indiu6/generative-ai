@@ -58,7 +58,7 @@ services:
   llm_service:
     build:
       context: ./llm_service
-      dockerfile: dockerfile
+      dockerfile: Dockerfile
     env_file:
       - ./llm_service/.env
     depends_on:
@@ -71,7 +71,7 @@ services:
   backend:
     build:
       context: ./backend
-      dockerfile: dockerfile
+      dockerfile: Dockerfile
     env_file:
       - ./backend/.env
     ports:
@@ -85,7 +85,7 @@ services:
   frontend:
     build:
       context: ./frontend
-      dockerfile: dockerfile
+      dockerfile: Dockerfile
     ports:
       - '3000:3000'
     depends_on:
