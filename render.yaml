@@ -46,8 +46,7 @@ services:
   - type: worker
     name: kafka
     runtime: docker
-    image:
-      url: confluentinc/cp-kafka
+    image: confluentinc/cp-kafka
     plan: free
     autoDeploy: true
     envVars:
@@ -67,8 +66,7 @@ services:
   - type: worker
     name: zookeeper
     runtime: docker
-    image:
-      url: confluentinc/cp-zookeeper
+    image: confluentinc/cp-zookeeper
     plan: free
     autoDeploy: true
     envVars:
