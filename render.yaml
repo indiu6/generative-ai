@@ -68,7 +68,7 @@ services:
     name: zookeeper
     runtime: docker
     image:
-      url: docker.io/cconfluentinc/cp-zookeeper:latest
+      url: docker.io/confluentinc/cp-zookeeper:latest
     plan: free
     autoDeploy: false
     envVars:
