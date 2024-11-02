@@ -18,3 +18,29 @@ pip install kafka-python openai python-dotenv
 docker build -t llm_service .
 docker run --env-file .env llm_service
 ```
+
+## AWS EKS ECR
+
+```bash
+aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 134428267718.dkr.ecr.us-east-1.amazonaws.com
+```
+
+```bash
+docker build -t llm_service .
+```
+
+```bash
+docker tag llm_service:latest 134428267718.dkr.ecr.us-east-1.amazonaws.com/llm_service:latest
+```
+
+```bash
+docker push 134428267718.dkr.ecr.us-east-1.amazonaws.com/llm_service:latest
+```
+
+```bash
+docker buildx build --platform linux/amd64 -t 134428267718.dkr.ecr.us-east-1.amazonaws.com/llm_service:latest .
+```
+
+```bash
+kubectl rollout restart deployment llm-service
+```
