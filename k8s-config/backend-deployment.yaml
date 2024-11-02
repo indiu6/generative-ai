@@ -28,3 +28,4 @@ spec:
           env:
             - name: KAFKA_BROKER
               value: 'kafka:9092'
+              # value: 'kafka.default.svc.cluster.local:9092'

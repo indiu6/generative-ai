@@ -27,6 +27,7 @@ spec:
           env:
             - name: KAFKA_BOOTSTRAP_SERVERS
               value: 'kafka:9092'
+              # value: 'kafka.default.svc.cluster.local:9092'
             - name: INPUT_TOPIC
               value: 'generate-text'
             - name: OUTPUT_TOPIC
