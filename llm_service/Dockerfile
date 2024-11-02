@@ -17,7 +17,7 @@ COPY . /app
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Make port 9092 available to the world outside this container
-EXPOSE 9092
+# EXPOSE 9092
 
 # Run llm_service.py when the container launches
 CMD ["python3", "llm_service.py"]

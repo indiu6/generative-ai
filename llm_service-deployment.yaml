@@ -15,8 +15,8 @@ spec:
       containers:
         - name: llm-service
           image: 134428267718.dkr.ecr.us-east-1.amazonaws.com/llm_service:latest
-          ports:
-            - containerPort: 9092
+          # ports:
+          #   - containerPort: 9092
           # resources:
           #   limits:
           #     memory: '512Mi'
