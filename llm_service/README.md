@@ -42,5 +42,6 @@ docker buildx build --platform linux/amd64 -t 134428267718.dkr.ecr.us-east-1.ama
 ```
 
 ```bash
+kubectl apply -f k8s-config/
 kubectl rollout restart deployment llm-service
 ```
