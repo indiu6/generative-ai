@@ -15,12 +15,14 @@
     "description": "",
     "dependencies": {
         "axios": "^1.7.7",
+        "cors": "^2.8.5",
         "dotenv": "^16.4.5",
         "express": "^4.21.1",
         "kafkajs": "^2.2.4",
         "ws": "^8.18.0"
     },
     "devDependencies": {
+        "@types/cors": "^2.8.17",
         "@types/express": "^5.0.0",
         "@types/node": "^22.8.4",
         "@types/ws": "^8.5.12",

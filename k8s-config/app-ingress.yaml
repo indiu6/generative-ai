@@ -10,6 +10,9 @@ metadata:
     # enables regex-based path matching, allowing for flexible path routing
     nginx.ingress.kubernetes.io/use-regex: 'true'
 
+    service.beta.kubernetes.io/aws-load-balancer-type: 'nlb'
+    service.beta.kubernetes.io/aws-load-balancer-scheme: 'internet-facing'
+
     nginx.ingress.kubernetes.io/proxy-read-timeout: '3600'
     nginx.ingress.kubernetes.io/proxy-send-timeout: '3600'
     # nginx.ingress.kubernetes.io/ssl-redirect: 'true'
@@ -24,11 +27,13 @@ spec:
   #   - hosts:
   #       - aa67ee659414d41718e15e260bb162e6-1825036394.us-east-1.elb.amazonaws.com # Replace with your domain
   #     secretName: tls-secret # Name of the TLS secret containing SSL certificate
-  ingressClassName: 'nginx'
+  #   ingressClassName: 'nginx'
   rules:
     # External rule for the frontend
-    - host: aa67ee659414d41718e15e260bb162e6-1825036394.us-east-1.elb.amazonaws.com
-      http:
+    # - host: aa67ee659414d41718e15e260bb162e6-1825036394.us-east-1.elb.amazonaws.com
+    - host: a0bef62d0bf154a1e9ecc358af552117-1945019924.us-east-1.elb.amazonaws.com
+    # - host: frontend
+    - http:
         paths:
           - path: /
             pathType: Prefix
@@ -39,11 +44,11 @@ spec:
                   number: 80
                   # number: 3000
 
-    # Internal paths for backend, llm_service, kafka, and zookeeper
-    # - host: <internal-domain> # Optional, or use same domain with unique paths
-    - host: aa67ee659414d41718e15e260bb162e6-1825036394.us-east-1.elb.amazonaws.com
-      http:
-        paths:
+          # Internal paths for backend, llm_service, kafka, and zookeeper
+          # - host: <internal-domain> # Optional, or use same domain with unique paths
+          # - host: backend
+          #   http:
+          #     paths:
           # Backend service routes
           - path: /api/generate
             pathType: Prefix
@@ -61,6 +66,9 @@ spec:
                 port:
                   number: 8081
 
+          # - host: llm-service
+          #   http:
+          #     paths:
           # LLM service path
           - path: /llm
             pathType: Prefix
@@ -70,6 +78,9 @@ spec:
                 port:
                   number: 9093
 
+          # - host: kafka-service
+          #   http:
+          #     paths:
           # Kafka service path (typically not exposed externally, but provided here if needed for testing)
           - path: /kafka
             pathType: Prefix
@@ -79,6 +90,9 @@ spec:
                 port:
                   number: 9092
 
+          # - host: zookeeper
+          #   http:
+          #     paths:
           # Zookeeper service path (typically internal, but included if needed)
           - path: /zookeeper
             pathType: Prefix

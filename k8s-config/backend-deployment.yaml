@@ -29,3 +29,6 @@ spec:
             - name: KAFKA_BROKER
               value: 'kafka-service:9092'
               # value: 'kafka.default.svc.cluster.local:9092'
+            # - name: REACT_URL
+            #   value: 'aa67ee659414d41718e15e260bb162e6-1825036394.us-east-1.elb.amazonaws.com'
+            # value: 'react:3000'
