@@ -20,10 +20,10 @@ spec:
           image: confluentinc/cp-zookeeper:latest
           ports:
             - containerPort: 2181
-          # resources:
-          #   limits:
-          #     memory: '512Mi'
-          #     cpu: '500m'
+          resources:
+            limits:
+              memory: '512Mi'
+              cpu: '500m'
           #   requests:
           #     memory: '256Mi'
           #     cpu: '250m'

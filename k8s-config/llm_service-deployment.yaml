@@ -17,10 +17,10 @@ spec:
           image: 134428267718.dkr.ecr.us-east-1.amazonaws.com/llm_service:latest
           # ports:
           #   - containerPort: 9092
-          # resources:
-          #   limits:
-          #     memory: '512Mi'
-          #     cpu: '500m'
+          resources:
+            limits:
+              memory: '1Gi'
+              cpu: '500m'
           #   requests:
           #     memory: '256Mi'
           #     cpu: '250m'
