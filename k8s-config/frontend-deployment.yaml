@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: frontend
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: frontend
@@ -22,5 +22,5 @@ spec:
             #   memory: '1Gi'
             #   cpu: '500m'
             limits:
-              memory: '2Gi'
-              cpu: '1000m'
+              memory: '1Gi'
+              cpu: '500m'

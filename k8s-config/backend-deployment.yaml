@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: backend
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: backend
@@ -27,5 +27,5 @@ spec:
           #     cpu: '250m'
           env:
             - name: KAFKA_BROKER
-              value: 'kafka:9092'
+              value: 'kafka-service:9092'
               # value: 'kafka.default.svc.cluster.local:9092'

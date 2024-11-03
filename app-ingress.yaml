@@ -1,0 +1,73 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: app-ingress
+  annotations:
+    # specifies that the NGINX Ingress controller should manage this Ingress
+    # kubernetes.io/ingress.class: 'nginx' # Deprecated, use spec.ingressClassName
+    spec.ingressClassName: 'nginx'
+    nginx.ingress.kubernetes.io/rewrite-target: /
+    # enables regex-based path matching, allowing for flexible path routing
+    nginx.ingress.kubernetes.io/use-regex: 'true'
+spec:
+  rules:
+    # External rule for the frontend
+    - host: aa67ee659414d41718e15e260bb162e6-1825036394.us-east-1.elb.amazonaws.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: frontend
+                port:
+                  number: 80
+                  # number: 3000
+
+    # Internal paths for backend, llm_service, kafka, and zookeeper
+    # - host: <internal-domain> # Optional, or use same domain with unique paths
+    - host: aa67ee659414d41718e15e260bb162e6-1825036394.us-east-1.elb.amazonaws.com
+      http:
+        paths:
+          # Backend service routes
+          - path: /api
+            pathType: Prefix
+            backend:
+              service:
+                name: backend
+                port:
+                  number: 8080
+          - path: /ws
+            pathType: Prefix
+            backend:
+              service:
+                name: backend
+                port:
+                  number: 8081
+
+          # llm_service path
+          - path: /llm
+            pathType: Prefix
+            backend:
+              service:
+                name: llm-service
+                port:
+                  number: 9093
+
+          # Kafka service path (typically not exposed externally, but provided here if needed for testing)
+          - path: /kafka
+            pathType: Prefix
+            backend:
+              service:
+                name: kafka-service
+                port:
+                  number: 9092
+
+          # Zookeeper service path (typically internal, but included if needed)
+          - path: /zookeeper
+            pathType: Prefix
+            backend:
+              service:
+                name: zookeeper
+                port:
+                  number: 2181

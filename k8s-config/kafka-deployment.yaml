@@ -21,12 +21,12 @@ spec:
           ports:
             - containerPort: 9092
           resources:
-            requests:
-              memory: '1Gi'
-              cpu: '500m'
+            # requests:
+            # memory: '1Gi'
+            # cpu: '500m'
             limits:
-              memory: '2Gi'
-              cpu: '1000m'
+              memory: '500Mi'
+              cpu: '500m'
           env:
             - name: KAFKA_BROKER_ID
               value: '1'
