@@ -23,7 +23,8 @@ const App: React.FC = () => {
 
   useEffect(() => {
     // Establish WebSocket connection to the backend
-    const socket = new WebSocket('ws://localhost:8081')
+    const wsUrl = process.env.WEBSOCKET_URL
+    const socket = new WebSocket(wsUrl || 'ws://localhost:8081')
 
     socket.onopen = () => {
       console.log('Connected to WebSocket server')

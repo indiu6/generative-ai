@@ -24,3 +24,7 @@ spec:
             limits:
               memory: '1Gi'
               cpu: '500m'
+          env:
+            - name: WEBSOCKET_URL
+              value: 'ws://backend:8081'
+              # value: 'wss://backends:8081/ws'

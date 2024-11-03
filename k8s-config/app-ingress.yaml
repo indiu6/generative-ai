@@ -9,7 +9,16 @@ metadata:
     nginx.ingress.kubernetes.io/rewrite-target: /
     # enables regex-based path matching, allowing for flexible path routing
     nginx.ingress.kubernetes.io/use-regex: 'true'
+
+    # nginx.ingress.kubernetes.io/proxy-read-timeout: '3600'
+    # nginx.ingress.kubernetes.io/proxy-send-timeout: '3600'
+    # nginx.ingress.kubernetes.io/ssl-redirect: 'true'
+    # nginx.ingress.kubernetes.io/backend-protocol: 'HTTPS'
 spec:
+  # tls:
+  #   - hosts:
+  #       - aa67ee659414d41718e15e260bb162e6-1825036394.us-east-1.elb.amazonaws.com # Replace with your domain
+  #     secretName: tls-secret # Name of the TLS secret containing SSL certificate
   rules:
     # External rule for the frontend
     - host: aa67ee659414d41718e15e260bb162e6-1825036394.us-east-1.elb.amazonaws.com
