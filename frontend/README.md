@@ -4,6 +4,23 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 [Gen-AI App](http://aa67ee659414d41718e15e260bb162e6-1825036394.us-east-1.elb.amazonaws.com).
 
+```bash
+docker build -t frontend .
+```
+
+```bash
+docker tag frontend:latest 134428267718.dkr.ecr.us-east-1.amazonaws.com/frontend:latest
+```
+
+```bash
+docker push 134428267718.dkr.ecr.us-east-1.amazonaws.com/frontend:latest
+```
+
+```bash
+kubectl apply -f k8s-config/
+kubectl rollout restart deployment frontend
+```
+
 ## Available Scripts
 
 In the project directory, you can run:

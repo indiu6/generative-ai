@@ -25,6 +25,7 @@ spec:
               memory: '1Gi'
               cpu: '500m'
           env:
-            - name: WEBSOCKET_URL
+            - name: REACT_APP_WEBSOCKET_URL
               value: 'ws://backend:8081'
-              # value: 'wss://backends:8081/ws'
+              # value: 'ws://aa67ee659414d41718e15e260bb162e6-1825036394.us-east-1.elb.amazonaws.com:8081'
+              # value: 'wss://aa67ee659414d41718e15e260bb162e6-1825036394.us-east-1.elb.amazonaws.com/ws'
