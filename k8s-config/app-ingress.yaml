@@ -2,36 +2,20 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: app-ingress
+  namespace: default
   annotations:
-    # specifies that the NGINX Ingress controller should manage this Ingress
-    # kubernetes.io/ingress.class: 'nginx' # Deprecated, use spec.ingressClassName
-    spec.ingressClassName: 'nginx'
-    nginx.ingress.kubernetes.io/rewrite-target: /
-    # enables regex-based path matching, allowing for flexible path routing
-    nginx.ingress.kubernetes.io/use-regex: 'true'
+    kubernetes.io/ingress.class: alb
+    alb.ingress.kubernetes.io/scheme: internet-facing
 
-    service.beta.kubernetes.io/aws-load-balancer-type: 'nlb'
-    service.beta.kubernetes.io/aws-load-balancer-scheme: 'internet-facing'
-
-    nginx.ingress.kubernetes.io/proxy-read-timeout: '3600'
-    nginx.ingress.kubernetes.io/proxy-send-timeout: '3600'
-    # nginx.ingress.kubernetes.io/ssl-redirect: 'true'
-    # nginx.ingress.kubernetes.io/backend-protocol: 'HTTPS'
-
-    nginx.ingress.kubernetes.io/proxy-http-version: '1.1'
-    nginx.ingress.kubernetes.io/proxy-set-headers: |
-      Upgrade: $http_upgrade
-      Connection: "upgrade"
+    # For WebSocket support
+    alb.ingress.kubernetes.io/listen-ports: '[{"HTTP": 80}, {"HTTPS": 443}]'
+    alb.ingress.kubernetes.io/target-type: ip
+    alb.ingress.kubernetes.io/target-group-attributes: stickiness.enabled=true,stickiness.lb_cookie.duration_seconds=60
+    alb.ingress.kubernetes.io/load-balancer-attributes: idle_timeout.timeout_seconds=600
 spec:
-  # tls:
-  #   - hosts:
-  #       - aa67ee659414d41718e15e260bb162e6-1825036394.us-east-1.elb.amazonaws.com # Replace with your domain
-  #     secretName: tls-secret # Name of the TLS secret containing SSL certificate
-  #   ingressClassName: 'nginx'
   rules:
     # External rule for the frontend
-    # - host: aa67ee659414d41718e15e260bb162e6-1825036394.us-east-1.elb.amazonaws.com
-    - host: a0bef62d0bf154a1e9ecc358af552117-1945019924.us-east-1.elb.amazonaws.com
+    # - host: af5c43a6ad67d4f33b4a82c458084b43-947220440.us-east-1.elb.amazonaws.com
     # - host: frontend
     - http:
         paths:
@@ -42,13 +26,8 @@ spec:
                 name: frontend
                 port:
                   number: 80
-                  # number: 3000
+                #   number: 3000
 
-          # Internal paths for backend, llm_service, kafka, and zookeeper
-          # - host: <internal-domain> # Optional, or use same domain with unique paths
-          # - host: backend
-          #   http:
-          #     paths:
           # Backend service routes
           - path: /api/generate
             pathType: Prefix
@@ -66,9 +45,6 @@ spec:
                 port:
                   number: 8081
 
-          # - host: llm-service
-          #   http:
-          #     paths:
           # LLM service path
           - path: /llm
             pathType: Prefix
@@ -78,9 +54,6 @@ spec:
                 port:
                   number: 9093
 
-          # - host: kafka-service
-          #   http:
-          #     paths:
           # Kafka service path (typically not exposed externally, but provided here if needed for testing)
           - path: /kafka
             pathType: Prefix
@@ -90,9 +63,6 @@ spec:
                 port:
                   number: 9092
 
-          # - host: zookeeper
-          #   http:
-          #     paths:
           # Zookeeper service path (typically internal, but included if needed)
           - path: /zookeeper
             pathType: Prefix
