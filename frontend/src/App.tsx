@@ -23,8 +23,9 @@ const App: React.FC = () => {
 
   useEffect(() => {
     // Establish WebSocket connection to the backend
-    const wsUrl = process.env.REACT_APP_WEBSOCKET_URL
-    const socket = new WebSocket(wsUrl || 'ws://localhost:8081')
+    const socket = new WebSocket(
+      process.env.REACT_APP_WEBSOCKET_URL || 'ws://localhost:8081',
+    )
     // const socket = new WebSocket(
     //   'wss://aa67ee659414d41718e15e260bb162e6-1825036394.us-east-1.elb.amazonaws.com/ws',
     // )

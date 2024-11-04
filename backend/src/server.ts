@@ -20,9 +20,7 @@ const wsPort: number = parseInt(process.env.WS_PORT || '8081', 10);
 // Kafka configuration
 const kafka = new Kafka({
     clientId: 'ai-backend',
-    // brokers: [process.env.KAFKA_BROKER || 'localhost:9092'],
     brokers: [process.env.KAFKA_BROKER || 'kafka:9092'],
-    // brokers: [process.env.KAFKA_BROKER || 'host.docker.internal:9092'],
 })
 const producer: Producer = kafka.producer()
 const consumer: Consumer = kafka.consumer({ groupId: 'llm-service-group' })
@@ -51,9 +49,6 @@ app.post('/api/generate', async (req: Request, res: Response) => {
     }
 })
 
-// app.listen(port, () => {
-//     console.log(`Server is running on port ${port}`)
-// })
 app.listen(port, '0.0.0.0', () => {
     console.log(`Server is running on port ${port}`);
 });
@@ -72,9 +67,7 @@ wss.on('connection', (ws: WSClient) => {
     })
 })
 
-// server.listen(port, () => {
-//     console.log(`WS Server is running on port ${port}`)
-// })
+// Start HTTP server
 server.listen(wsPort, () => {
     console.log(`WS Server is running on port ${wsPort}`)
 })
