@@ -44,9 +44,15 @@ To containerize the three microservices and test their communication:
 
 Refer to the respective Dockerfile and service documentation for detailed setup instructions.
 
-## Deployment on AWS EKS for _PROD_
+## Deployment on AWS EKS for _PROD_ >> GKE
 
 Deploying 3 Dockerized microservices using AWS Elastic Kubernetes Service (EKS) leverages Kubernetes for orchestration and AWS for infrastructure.
+
+### By automating the building, tagging, and pushing process, it can streamline the deployment pipeline, ensuring consistency and efficiency when working with multiple Docker images in Google Artifact Registry
+
+```bash
+./build_tag_push_docker_images.sh
+```
 
 1. **Setup AWS EKS Cluster**:
 

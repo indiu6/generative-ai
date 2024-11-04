@@ -10,10 +10,12 @@ docker build -t frontend .
 
 ```bash
 docker tag frontend:latest 134428267718.dkr.ecr.us-east-1.amazonaws.com/frontend:latest
+docker tag frontend:latest us-central1-docker.pkg.dev/gen-ai-440705/my-repo/frontend:latest
 ```
 
 ```bash
 docker push 134428267718.dkr.ecr.us-east-1.amazonaws.com/frontend:latest
+docker push us-central1-docker.pkg.dev/gen-ai-440705/my-repo/frontend:latest
 ```
 
 ```bash
