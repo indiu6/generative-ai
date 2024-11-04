@@ -4,14 +4,14 @@ metadata:
   name: app-ingress
   namespace: default
   annotations:
-    kubernetes.io/ingress.class: alb
-    alb.ingress.kubernetes.io/scheme: internet-facing
+    # spec.ingressClassName: alb
+    # alb.ingress.kubernetes.io/scheme: internet-facing
 
-    # For WebSocket support
-    alb.ingress.kubernetes.io/listen-ports: '[{"HTTP": 80}, {"HTTPS": 443}]'
-    alb.ingress.kubernetes.io/target-type: ip
-    alb.ingress.kubernetes.io/target-group-attributes: stickiness.enabled=true,stickiness.lb_cookie.duration_seconds=60
-    alb.ingress.kubernetes.io/load-balancer-attributes: idle_timeout.timeout_seconds=600
+    # # For WebSocket support
+    # alb.ingress.kubernetes.io/listen-ports: '[{"HTTP": 80}, {"HTTPS": 443}]'
+    # alb.ingress.kubernetes.io/target-type: ip
+    # alb.ingress.kubernetes.io/target-group-attributes: stickiness.enabled=true,stickiness.lb_cookie.duration_seconds=60
+    # alb.ingress.kubernetes.io/load-balancer-attributes: idle_timeout.timeout_seconds=600
 spec:
   rules:
     # External rule for the frontend

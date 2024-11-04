@@ -14,7 +14,8 @@ spec:
     spec:
       containers:
         - name: llm-service
-          image: 134428267718.dkr.ecr.us-east-1.amazonaws.com/llm_service:latest
+          # image: 134428267718.dkr.ecr.us-east-1.amazonaws.com/llm_service:latest
+          image: us-central1-docker.pkg.dev/gen-ai-440705/my-repo/llm_service:latest
           # ports:
           #   - containerPort: 9092
           resources:

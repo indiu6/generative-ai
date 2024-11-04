@@ -14,7 +14,8 @@ spec:
     spec:
       containers:
         - name: frontend
-          image: 134428267718.dkr.ecr.us-east-1.amazonaws.com/frontend:latest
+          # image: 134428267718.dkr.ecr.us-east-1.amazonaws.com/frontend:latest
+          image: us-central1-docker.pkg.dev/gen-ai-440705/my-repo/frontend:latest
           ports:
             - containerPort: 3000
           resources:
