@@ -51,6 +51,7 @@ Deploying 3 Dockerized microservices using AWS Elastic Kubernetes Service (EKS) 
 ### By automating the building, tagging, and pushing process, it can streamline the deployment pipeline, ensuring consistency and efficiency when working with multiple Docker images in Google Artifact Registry
 
 ```bash
+chmod +x build_tag_push_docker_images.sh
 ./build_tag_push_docker_images.sh
 ```
 
