@@ -63,7 +63,7 @@ configure_topic_retention()  # Apply retention policy at startup
 # Listens to messages on the generate-text topic.
 consumer = KafkaConsumer(
     os.getenv("INPUT_TOPIC"),
-    bootstrap_servers=[os.getenv("KAFKA_BOOTSTRAP_SERVERS")],
+    bootstrap_servers=[kafka_bootstrap_servers],
     auto_offset_reset="earliest",
     enable_auto_commit=True,
     # group_id="llm-service-group",

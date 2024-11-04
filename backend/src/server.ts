@@ -30,7 +30,7 @@ const admin: Admin = kafka.admin()
 
 // Middleware
 app.use(express.json())
-app.use(cors({ origin: process.env.REACT_URL || 'http://aa67ee659414d41718e15e260bb162e6-1825036394.us-east-1.elb.amazonaws.com' }));
+// app.use(cors({ origin: process.env.REACT_URL || 'http://aa67ee659414d41718e15e260bb162e6-1825036394.us-east-1.elb.amazonaws.com' }));
 
 // HTTP endpoint to receive prompt requests
 app.post('/api/generate', async (req: Request, res: Response) => {
