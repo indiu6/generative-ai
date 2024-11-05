@@ -52,8 +52,12 @@ Deploying 3 Dockerized microservices using AWS Elastic Kubernetes Service (EKS) 
 
 ```bash
 ./build_tag_push_docker_images.sh
+
 kubectl apply -f k8s-config/
 kubectl rollout restart deployment llm-service
+
+gcloud container clusters get-credentials gen-cluster-1 --region=us-central1
+
 ```
 
 1. **Setup AWS EKS Cluster**:

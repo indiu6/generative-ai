@@ -15,14 +15,14 @@ spec:
       containers:
         - name: backend
           # image: 134428267718.dkr.ecr.us-east-1.amazonaws.com/backend:latest
-          image: us-central1-docker.pkg.dev/gen-ai-440705/my-repo/backend:latest
+          image: us-central1-docker.pkg.dev/gen-ai-440722/my-repo/backend:latest
           ports:
             - containerPort: 8080
             - containerPort: 8081
           resources:
             limits:
               memory: '1Gi'
-              cpu: '500m'
+              cpu: '800m'
           #   requests:
           #     memory: '256Mi'
           #     cpu: '250m'

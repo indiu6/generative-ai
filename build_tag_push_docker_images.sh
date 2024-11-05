@@ -1,7 +1,13 @@
 #!/opt/homebrew/bin/bash
 
+# 1089461675160-compute@developer.gserviceaccount.com
+
+# ./build_tag_push_docker_images.sh
+# kubectl apply -f k8s-config/
+# kubectl rollout restart deployment llm-service
+
 # Variables
-PROJECT_ID=gen-ai-440705
+PROJECT_ID=genai-440722
 REPO_NAME=my-repo
 REGION=us-central1
 
@@ -24,7 +30,7 @@ for IMAGE in "${!IMAGES[@]}"; do
   REMOTE_IMAGE="${REGION}-docker.pkg.dev/${PROJECT_ID}/${REPO_NAME}/${IMAGE}:${TAG}"
 
   # Build the Docker image
-  if docker build -t "${LOCAL_IMAGE}" "${DOCKERFILE_DIR}"; then
+  if docker build -t "${LOCAL_IMAGE}" "${DOCKERFILE_DIR}."; then
     echo ">>> Successfully built ${LOCAL_IMAGE}"
   else
     echo ">>> Failed to build ${LOCAL_IMAGE}"
