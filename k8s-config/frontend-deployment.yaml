@@ -18,13 +18,13 @@ spec:
           image: us-central1-docker.pkg.dev/gen-ai-440722/my-repo/frontend:latest
           ports:
             - containerPort: 3000
-          resources:
-            # requests:
-            #   memory: '1Gi'
-            #   cpu: '500m'
-            limits:
-              memory: '1Gi'
-              cpu: '900m'
+          # resources:
+          # requests:
+          #   memory: '1Gi'
+          #   cpu: '500m'
+          # limits:
+          #   memory: '1Gi'
+          #   cpu: '900m'
           env:
             - name: REACT_APP_WEBSOCKET_URL
               # value: 'ws://localhost:8081'

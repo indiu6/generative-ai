@@ -4,7 +4,7 @@
 
 # ./build_tag_push_docker_images.sh
 # kubectl apply -f k8s-config/
-# kubectl rollout restart deployment llm-service
+# kubectl rollout restart deployment frontend
 
 # Variables
 PROJECT_ID=genai-440722
@@ -30,7 +30,7 @@ for IMAGE in "${!IMAGES[@]}"; do
   REMOTE_IMAGE="${REGION}-docker.pkg.dev/${PROJECT_ID}/${REPO_NAME}/${IMAGE}:${TAG}"
 
   # Build the Docker image
-  if docker build -t "${LOCAL_IMAGE}" "${DOCKERFILE_DIR}."; then
+  if docker buildx build --platform linux/amd64 -t "${LOCAL_IMAGE}" "${DOCKERFILE_DIR}."; then
     echo ">>> Successfully built ${LOCAL_IMAGE}"
   else
     echo ">>> Failed to build ${LOCAL_IMAGE}"
@@ -54,3 +54,8 @@ for IMAGE in "${!IMAGES[@]}"; do
   fi
 done
 
+# kubectl create secret docker-registry artifact-registry-secret \
+#   --docker-server=us-central1-docker.pkg.dev \
+#   --docker-username=_json_key \
+#   --docker-password="$(cat ./genai-440722-54806f575aa4.json)" \
+#   --docker-email=sean.hyun.yang
