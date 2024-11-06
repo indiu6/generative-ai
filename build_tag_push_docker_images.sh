@@ -3,7 +3,7 @@
 # 1089461675160-compute@developer.gserviceaccount.com
 
 # ./build_tag_push_docker_images.sh
-# kubectl apply -f k8s-config/
+# kubectl apply -f k8s-config-gke/
 # kubectl rollout restart deployment frontend
 
 # Variables
