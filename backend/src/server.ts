@@ -13,7 +13,6 @@ import cors from 'cors'
 dotenv.config()
 
 const app = express()
-// const port: string | number = process.env.PORT || 8080
 const port: number = parseInt(process.env.PORT || '8080', 10);
 const wsPort: number = parseInt(process.env.WS_PORT || '8081', 10);
 
@@ -28,13 +27,13 @@ const admin: Admin = kafka.admin()
 
 // Middleware
 app.use(express.json())
-// app.use(cors({ origin: process.env.REACT_URL || 'http://aa67ee659414d41718e15e260bb162e6-1825036394.us-east-1.elb.amazonaws.com' }));
 
 // HTTP endpoint to receive prompt requests
 app.post('/api/generate', async (req: Request, res: Response) => {
     const { input }: { input: string } = req.body
 
     try {
+        // Send input to Kafka topic
         await producer.connect()
         await producer.send({
             topic: 'generate-text',
@@ -72,6 +71,11 @@ wss.on('connection', (ws: WSClient) => {
 // server.listen(wsPort, () => {
 //     console.log(`WS Server is running on port ${wsPort}`)
 // })
+
+// Start WebSocket server
+wss.on('listening', () => {
+    console.log(`WebSocket server is running on port ${wsPort}`);
+});
 
 // Function to configure Kafka topic retention policy
 const configureTopicRetention = async (): Promise<void> => {

@@ -3,6 +3,10 @@ kind: Ingress
 metadata:
   name: app-ingress
   namespace: default
+  annotations:
+    kubernetes.io/ingress.allow-http: 'true' # Ensure HTTP is allowed
+    nginx.ingress.kubernetes.io/proxy-read-timeout: '3600' # Adjust timeouts if needed
+    nginx.ingress.kubernetes.io/proxy-send-timeout: '3600'
 spec:
   rules:
     - http:

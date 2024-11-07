@@ -28,7 +28,6 @@ const App: React.FC = () => {
         process.env.REACT_APP_WEBSOCKET_URL || 'ws://localhost:8081',
       )
 
-      // Log WebSocket URL for debugging
       console.log('Attempting to connect to WebSocket:', socket.url)
 
       // WebSocket connection opened
@@ -42,7 +41,6 @@ const App: React.FC = () => {
           console.log('Raw message received from WebSocket:', event.data)
           const data = JSON.parse(event.data)
 
-          // Check if data contains the `response` key
           if (data.response) {
             console.log("Message received with 'response' key:", data.response)
             setMessages((prevMessages) => [
@@ -59,13 +57,21 @@ const App: React.FC = () => {
 
       // WebSocket connection closed
       socket.onclose = (event) => {
-        console.log('Disconnected from WebSocket server')
-        console.log('Close event:', event)
+        console.log('WebSocket connection closed')
+        console.log(`Close event: Code ${event.code}, Reason: ${event.reason}`)
+        if (event.wasClean) {
+          console.log('Connection closed cleanly.')
+        } else {
+          console.error('Connection closed abruptly. Code:', event.code)
+        }
       }
 
       // WebSocket error handling
       socket.onerror = (error) => {
         console.error('WebSocket error observed:', error)
+        if (error instanceof Event) {
+          console.error('WebSocket error event details:', error)
+        }
       }
 
       // Cleanup WebSocket connection on component unmount

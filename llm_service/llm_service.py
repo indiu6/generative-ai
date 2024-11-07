@@ -91,7 +91,9 @@ def handle_request(input_text):
         # )
         response = client.chat.completions.create(
             messages=[{"role": "user", "content": input_text}],
-            model="gpt-3.5-turbo",  # Replace with "gpt-4" if you have access and prefer GPT-4
+            # Replace with "gpt-4" if you have access and prefer GPT-4
+            # model="gpt-3.5-turbo",
+            model=os.getenv("OPENAI_API_VER", "gpt-3.5-turbo"),
             # stream=True,
         )
         # return response.choices[0].text.strip()
