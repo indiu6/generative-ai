@@ -22,44 +22,59 @@ const App: React.FC = () => {
   const messagesEndRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    // Establish WebSocket connection to the backend
-    const socket = new WebSocket(
-      process.env.REACT_APP_WEBSOCKET_URL || 'ws://localhost:8081',
-    )
-    // const socket = new WebSocket(
-    //   'wss://aa67ee659414d41718e15e260bb162e6-1825036394.us-east-1.elb.amazonaws.com/ws',
-    // )
+    try {
+      // Establish WebSocket connection to the backend
+      const socket = new WebSocket(
+        process.env.REACT_APP_WEBSOCKET_URL || 'ws://localhost:8081',
+      )
 
-    socket.onopen = () => {
-      console.log('Connected to WebSocket server')
-    }
+      // Log WebSocket URL for debugging
+      console.log('Attempting to connect to WebSocket:', socket.url)
 
-    // Listen for responses from WebSocket
-    socket.onmessage = (event: MessageEvent) => {
-      try {
-        const data = JSON.parse(event.data)
-
-        // Check if data contains the `response` key
-        if (data.response) {
-          setMessages((prevMessages) => [
-            ...prevMessages,
-            { role: 'bot', content: data.response },
-          ])
-        } else {
-          console.warn("Received message without 'response' key:", data)
-        }
-      } catch (error) {
-        console.error('Error parsing WebSocket message:', error)
+      // WebSocket connection opened
+      socket.onopen = () => {
+        console.log('Connected to WebSocket server at:', socket.url)
       }
-    }
 
-    socket.onclose = () => {
-      console.log('Disconnected from WebSocket server')
-    }
+      // Listen for responses from WebSocket
+      socket.onmessage = (event: MessageEvent) => {
+        try {
+          console.log('Raw message received from WebSocket:', event.data)
+          const data = JSON.parse(event.data)
 
-    // Cleanup WebSocket connection on component unmount
-    return () => {
-      socket.close()
+          // Check if data contains the `response` key
+          if (data.response) {
+            console.log("Message received with 'response' key:", data.response)
+            setMessages((prevMessages) => [
+              ...prevMessages,
+              { role: 'bot', content: data.response },
+            ])
+          } else {
+            console.warn("Received message without 'response' key:", data)
+          }
+        } catch (error) {
+          console.error('Error parsing WebSocket message:', error)
+        }
+      }
+
+      // WebSocket connection closed
+      socket.onclose = (event) => {
+        console.log('Disconnected from WebSocket server')
+        console.log('Close event:', event)
+      }
+
+      // WebSocket error handling
+      socket.onerror = (error) => {
+        console.error('WebSocket error observed:', error)
+      }
+
+      // Cleanup WebSocket connection on component unmount
+      return () => {
+        console.log('Closing WebSocket connection')
+        socket.close()
+      }
+    } catch (error) {
+      console.error('Error in WebSocket configuration:', error)
     }
   }, [])
 

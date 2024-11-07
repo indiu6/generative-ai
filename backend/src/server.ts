@@ -56,7 +56,8 @@ app.listen(port, '0.0.0.0', () => {
 // Set up HTTP server and WebSocket server
 const server: HTTPServer = http.createServer(app)
 // Attach WebSocket server to HTTP server
-const wss: WebSocketServer = new WebSocketServer({ server })
+// const wss: WebSocketServer = new WebSocketServer({ server })
+const wss: WebSocketServer = new WebSocketServer({ port: wsPort })
 
 // WebSocket connection handler
 wss.on('connection', (ws: WSClient) => {
@@ -68,9 +69,9 @@ wss.on('connection', (ws: WSClient) => {
 })
 
 // Start HTTP server
-server.listen(wsPort, () => {
-    console.log(`WS Server is running on port ${wsPort}`)
-})
+// server.listen(wsPort, () => {
+//     console.log(`WS Server is running on port ${wsPort}`)
+// })
 
 // Function to configure Kafka topic retention policy
 const configureTopicRetention = async (): Promise<void> => {
