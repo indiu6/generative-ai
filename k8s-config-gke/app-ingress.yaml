@@ -7,8 +7,10 @@ metadata:
     kubernetes.io/ingress.allow-http: 'true' # Ensure HTTP is allowed
     nginx.ingress.kubernetes.io/proxy-read-timeout: '3600' # Adjust timeouts if needed
     nginx.ingress.kubernetes.io/proxy-send-timeout: '3600'
+    networking.gke.io/managed-certificates: my-managed-cert
 spec:
   rules:
+    # - host: aiplay.dev
     - http:
         paths:
           - path: /
@@ -18,43 +20,3 @@ spec:
                 name: frontend-service
                 port:
                   number: 80
-
-          # - path: /api/generate
-          #   pathType: Prefix
-          #   backend:
-          #     service:
-          #       name: backend-service
-          #       port:
-          #         number: 8080
-
-          # - path: /ws
-          #   pathType: Prefix
-          #   backend:
-          #     service:
-          #       name: backend-service
-          #       port:
-          #         number: 8081
-
-          # - path: /llm
-          #   pathType: Prefix
-          #   backend:
-          #     service:
-          #       name: llm-python-service
-          #       port:
-          #         number: 9093
-
-          # - path: /kafka
-          #   pathType: Prefix
-          #   backend:
-          #     service:
-          #       name: kafka-service
-          #       port:
-          #         number: 9092
-
-          # - path: /zookeeper
-          #   pathType: Prefix
-          #   backend:
-          #     service:
-          #       name: zookeeper
-          #       port:
-          #         number: 2181
