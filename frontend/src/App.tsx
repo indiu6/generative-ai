@@ -117,105 +117,121 @@ const App: React.FC = () => {
   }
 
   return (
-    <Container
-      maxWidth="sm"
-      style={{
-        paddingTop: '20px',
-        fontFamily: 'Arial, sans-serif',
-        backgroundColor: '#f9f9fb',
-        borderRadius: '8px',
-      }}
+    <Box
+      display="flex"
+      justifyContent="center"
+      alignItems="center"
+      minHeight="100vh"
+      style={{ backgroundColor: '#f0f0f5' }} // Optional background color for the whole view
     >
-      <Typography variant="h4" component="h1" align="center" gutterBottom>
-        Generative AI Playground
-      </Typography>
-
-      <Paper
-        variant="outlined"
+      <Container
+        maxWidth="sm"
         style={{
-          maxHeight: '60vh',
-          overflowY: 'auto',
-          padding: '10px',
-          marginBottom: '20px',
-          backgroundColor: '#ffffff',
-          boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+          paddingTop: '20px',
+          paddingBottom: '20px',
+          fontFamily: 'Arial, sans-serif',
+          backgroundColor: '#f9f9fb',
+          borderRadius: '8px',
         }}
       >
-        {messages.length === 0 ? (
-          <Box
-            display="flex"
-            justifyContent="center"
-            alignItems="center"
-            height="100%"
-          >
-            <Typography variant="body1" color="textSecondary">
-              Welcome! Type a question below to start chatting with the AI.
-            </Typography>
-          </Box>
-        ) : (
-          messages.map((msg, index) => (
-            <Box
-              key={index}
-              display="flex"
-              justifyContent={msg.role === 'user' ? 'flex-end' : 'flex-start'}
-              marginY={1}
-            >
-              <Paper
-                elevation={2}
-                style={{
-                  padding: '10px',
-                  borderRadius: '10px',
-                  backgroundColor: msg.role === 'user' ? '#f6e6d8' : '#e8e8e8',
-                  maxWidth: '80%',
-                  transition: 'transform 0.2s ease',
-                }}
-                className="message"
-              >
-                <Typography variant="body1" color="textPrimary">
-                  {msg.content}
-                </Typography>
-              </Paper>
-            </Box>
-          ))
-        )}
-
-        {loading && (
-          <Box display="flex" justifyContent="center" paddingY={1}>
-            <CircularProgress size={20} />
-          </Box>
-        )}
-
-        <div ref={messagesEndRef} />
-      </Paper>
-
-      <Box component="form" onSubmit={handleSubmit} display="flex" gap={1}>
-        <TextField
-          variant="outlined"
-          placeholder="Message ChatGPT..."
-          fullWidth
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
-          style={{ backgroundColor: '#ffffff', borderRadius: '4px' }}
+        <img
+          src="path_to_your_image.jpg" // Replace with your image path or URL
+          alt="App Logo"
+          style={{ width: '100%', height: 'auto', marginBottom: '20px' }}
         />
-        <Button
-          type="submit"
-          variant="contained"
+
+        <Typography variant="h4" component="h1" align="center" gutterBottom>
+          Generative AI Playground
+        </Typography>
+
+        <Paper
+          variant="outlined"
           style={{
-            backgroundColor: '#d48a5f',
-            color: '#ffffff',
-            transition: 'background-color 0.3s ease, transform 0.2s ease',
+            maxHeight: '60vh',
+            overflowY: 'auto',
+            padding: '10px',
+            marginBottom: '20px',
+            backgroundColor: '#ffffff',
+            boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
           }}
-          onMouseOver={(e) =>
-            (e.currentTarget.style.backgroundColor = '#b76b44')
-          }
-          onMouseOut={(e) =>
-            (e.currentTarget.style.backgroundColor = '#d48a5f')
-          }
         >
-          Send
-        </Button>
-      </Box>
-    </Container>
+          {messages.length === 0 ? (
+            <Box
+              display="flex"
+              justifyContent="center"
+              alignItems="center"
+              height="100%"
+            >
+              <Typography variant="body1" color="textSecondary">
+                Welcome! Type a question below to start chatting with the AI.
+              </Typography>
+            </Box>
+          ) : (
+            messages.map((msg, index) => (
+              <Box
+                key={index}
+                display="flex"
+                justifyContent={msg.role === 'user' ? 'flex-end' : 'flex-start'}
+                marginY={1}
+              >
+                <Paper
+                  elevation={2}
+                  style={{
+                    padding: '10px',
+                    borderRadius: '10px',
+                    backgroundColor:
+                      msg.role === 'user' ? '#f6e6d8' : '#e8e8e8',
+                    maxWidth: '80%',
+                    transition: 'transform 0.2s ease',
+                  }}
+                  className="message"
+                >
+                  <Typography variant="body1" color="textPrimary">
+                    {msg.content}
+                  </Typography>
+                </Paper>
+              </Box>
+            ))
+          )}
+
+          {loading && (
+            <Box display="flex" justifyContent="center" paddingY={1}>
+              <CircularProgress size={20} />
+            </Box>
+          )}
+
+          <div ref={messagesEndRef} />
+        </Paper>
+
+        <Box component="form" onSubmit={handleSubmit} display="flex" gap={1}>
+          <TextField
+            variant="outlined"
+            placeholder="Message ChatGPT..."
+            fullWidth
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+            style={{ backgroundColor: '#ffffff', borderRadius: '4px' }}
+          />
+          <Button
+            type="submit"
+            variant="contained"
+            style={{
+              backgroundColor: '#d48a5f',
+              color: '#ffffff',
+              transition: 'background-color 0.3s ease, transform 0.2s ease',
+            }}
+            onMouseOver={(e) =>
+              (e.currentTarget.style.backgroundColor = '#b76b44')
+            }
+            onMouseOut={(e) =>
+              (e.currentTarget.style.backgroundColor = '#d48a5f')
+            }
+          >
+            Send
+          </Button>
+        </Box>
+      </Container>
+    </Box>
   )
 }
 

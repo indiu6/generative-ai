@@ -1,7 +1,7 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: app-ingress
+  name: https-ingress
   namespace: default
   annotations:
     nginx.ingress.kubernetes.io/proxy-read-timeout: '3600' # Adjust timeouts if needed
@@ -9,8 +9,8 @@ metadata:
     networking.gke.io/managed-certificates: my-managed-cert
 spec:
   rules:
-    # - host: aiplay.dev
-    - http:
+    - host: aiplay.dev
+      http:
         paths:
           - path: /
             pathType: Prefix

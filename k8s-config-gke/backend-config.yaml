@@ -4,3 +4,7 @@ metadata:
   name: websocket-backendconfig
 spec:
   timeoutSec: 3600
+  # securityPolicy:
+  # name: 'waf-security-policy' # Associates the specified Cloud Armor security policy
+  # name: ''
+  # Additional configurations can be added here
