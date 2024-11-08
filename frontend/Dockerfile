@@ -17,7 +17,7 @@ COPY . .
 RUN npm run build
 
 # Install a lightweight HTTP server to serve static files
-RUN npm install -g serve
+# RUN npm install -g serve
 
 # Expose the port the app runs on
 EXPOSE 3000
@@ -26,7 +26,7 @@ EXPOSE 3000
 ENV NODE_ENV=production
 
 # Define the command to run the app
-# CMD ["npm", "start"]
+CMD ["npm", "start"]
 
 # Define the command to serve the built app
-CMD ["serve", "-s", "build"]
+# CMD ["serve", "-s", "build"]

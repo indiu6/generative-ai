@@ -23,10 +23,14 @@ const App: React.FC = () => {
 
   useEffect(() => {
     try {
-      // Establish WebSocket connection to the backend
-      const socket = new WebSocket(
-        process.env.REACT_APP_WEBSOCKET_URL || 'ws://localhost:8081',
-      )
+      // Determine WebSocket protocol based on environment
+      const wsProtocol = window.location.protocol === 'https:' ? 'wss' : 'ws'
+      const wsUrl = `${wsProtocol}://${
+        process.env.REACT_APP_WEBSOCKET_URL || 'localhost:8081'
+      }`
+
+      // Establish WebSocket connection
+      const socket = new WebSocket(wsUrl)
 
       console.log('Attempting to connect to WebSocket:', socket.url)
 
@@ -134,12 +138,6 @@ const App: React.FC = () => {
           borderRadius: '8px',
         }}
       >
-        <img
-          src="path_to_your_image.jpg" // Replace with your image path or URL
-          alt="App Logo"
-          style={{ width: '100%', height: 'auto', marginBottom: '20px' }}
-        />
-
         <Typography variant="h4" component="h1" align="center" gutterBottom>
           Generative AI Playground
         </Typography>

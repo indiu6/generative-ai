@@ -1,4 +1,4 @@
-# Generative-AI-Playground [aiplay.dev](https://aiplay.dev/) ![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)
+# Generative-AI-Playground [Demo](http://34.107.191.55/) ![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)
 
 A basic Generative AI microservice integrates Node.js with TypeScript and Python for backend services.
 
