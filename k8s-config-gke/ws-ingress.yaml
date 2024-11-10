@@ -3,26 +3,12 @@
 # metadata:
 #   name: ws-ingress
 #   namespace: default
+#   annotations:
+#     networking.gke.io/managed-certificates: my-managed-cert
 # spec:
 #   rules:
 #     - http:
 #         paths:
-#           # - path: /
-#           #   pathType: Prefix
-#           #   backend:
-#           #     service:
-#           #       name: frontend-service
-#           #       port:
-#           #         number: 80
-
-#           # - path: /api/generate
-#           #   pathType: Prefix
-#           #   backend:
-#           #     service:
-#           #       name: backend-service
-#           #       port:
-#           #         number: 8080
-
 #           - path: /
 #             pathType: Prefix
 #             backend:
@@ -30,27 +16,3 @@
 #                 name: backend-ws-service
 #                 port:
 #                   number: 8081
-
-#           # - path: /llm
-#           #   pathType: Prefix
-#           #   backend:
-#           #     service:
-#           #       name: llm-python-service
-#           #       port:
-#           #         number: 9093
-
-#           # - path: /kafka
-#           #   pathType: Prefix
-#           #   backend:
-#           #     service:
-#           #       name: kafka-service
-#           #       port:
-#           #         number: 9092
-
-#           # - path: /zookeeper
-#           #   pathType: Prefix
-#           #   backend:
-#           #     service:
-#           #       name: zookeeper
-#           #       port:
-#           #         number: 2181

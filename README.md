@@ -44,20 +44,18 @@ To containerize the three microservices and test their communication:
 
 Refer to the respective Dockerfile and service documentation for detailed setup instructions.
 
-## Deployment on AWS EKS for _PROD_ >> GKE
+## Deployment on AWS EKS for _PROD_ >> Google K8s Engine
 
-Deploying 3 Dockerized microservices using AWS Elastic Kubernetes Service (EKS) leverages Kubernetes for orchestration and AWS for infrastructure.
+- Changed due to the cost: GKE, GCE << AWS EKS + EC2
+- Deploying 3 Dockerized microservices using AWS Elastic Kubernetes Service (EKS) leverages Kubernetes for orchestration and AWS for infrastructure.
 
 ### By automating the building, tagging, and pushing process, it can streamline the deployment pipeline, ensuring consistency and efficiency when working with multiple Docker images in Google Artifact Registry
 
 ```bash
 ./build_tag_push_docker_images.sh
 
-kubectl apply -f k8s-config/
+kubectl apply -f k8s-config-gke/
 kubectl rollout restart deployment llm-service
-
-gcloud container clusters get-credentials gen-cluster-1 --region=us-central1
-
 ```
 
 1. **Setup AWS EKS Cluster**:
@@ -80,7 +78,7 @@ gcloud container clusters get-credentials gen-cluster-1 --region=us-central1
    - Apply Kubernetes manifests using `kubectl apply -f <manifest-file>.yaml`.
    - Verify that the pods are running and services are correctly exposed.
 
-5. **Setup AWS ECR**:
+5. **Setup AWS ECR**: >> Google Artifact Registry
 
    - Push Docker images to AWS Elastic Container Registry (ECR).
    - Update Kubernetes manifests to pull images from ECR.
