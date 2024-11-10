@@ -9,6 +9,7 @@ import {
   Typography,
   CircularProgress,
 } from '@mui/material'
+import ReactMarkdown from 'react-markdown'
 
 type Message = {
   role: 'user' | 'bot'
@@ -185,7 +186,11 @@ const App: React.FC = () => {
                   className="message"
                 >
                   <Typography variant="body1" color="textPrimary">
-                    {msg.content}
+                    {msg.role === 'bot' ? (
+                      <ReactMarkdown>{msg.content}</ReactMarkdown>
+                    ) : (
+                      msg.content
+                    )}
                   </Typography>
                 </Paper>
               </Box>
