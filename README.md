@@ -46,7 +46,7 @@ Refer to the respective Dockerfile and service documentation for detailed setup 
 
 ## Deployment on AWS EKS for _PROD_ >> Google K8s Engine
 
-- Changed due to the cost: GKE, GCE << AWS EKS + EC2
+- Changed due to the cost: GKE + GCE < AWS EKS + EC2
 - Deploying 3 Dockerized microservices using AWS Elastic Kubernetes Service (EKS) leverages Kubernetes for orchestration and AWS for infrastructure.
 
 ### By automating the building, tagging, and pushing process, it can streamline the deployment pipeline, ensuring consistency and efficiency when working with multiple Docker images in Google Artifact Registry
