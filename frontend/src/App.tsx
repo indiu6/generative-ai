@@ -41,19 +41,30 @@ const App: React.FC = () => {
       }
 
       // Listen for responses from WebSocket
+      // Handle each WebSocket message as a streaming chunk
       socket.onmessage = (event: MessageEvent) => {
         try {
-          console.log('Raw message received from WebSocket:', event.data)
           const data = JSON.parse(event.data)
 
           if (data.response) {
-            console.log("Message received with 'response' key:", data.response)
-            setMessages((prevMessages) => [
-              ...prevMessages,
-              { role: 'bot', content: data.response },
-            ])
-          } else {
-            console.warn("Received message without 'response' key:", data)
+            setMessages((prevMessages) => {
+              // If last message is from the bot, update its content
+              if (
+                prevMessages.length > 0 &&
+                prevMessages[prevMessages.length - 1].role === 'bot'
+              ) {
+                const updatedMessages = [...prevMessages]
+                updatedMessages[updatedMessages.length - 1].content +=
+                  data.response
+                return updatedMessages
+              } else {
+                // Otherwise, add a new bot message
+                return [
+                  ...prevMessages,
+                  { role: 'bot', content: data.response },
+                ]
+              }
+            })
           }
         } catch (error) {
           console.error('Error parsing WebSocket message:', error)
