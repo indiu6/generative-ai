@@ -11,7 +11,6 @@ load_dotenv()
 
 print(openai.__version__)
 
-# openai.api_key = os.getenv("OPENAI_API_KEY")
 client = OpenAI(
     # This is the default and can be omitted
     api_key=os.environ.get("OPENAI_API_KEY"),
@@ -56,7 +55,6 @@ def configure_topic_retention():
         admin_client.close()
 
 
-# Initialize Kafka Consumer and Producer
 configure_topic_retention()  # Apply retention policy at startup
 
 # Initialize Kafka Consumer and Producer
@@ -84,24 +82,14 @@ def handle_request(input_text):
     Send a prompt to OpenAI and retrieve the response text.
     """
     try:
-        # response = openai.Completion.create(
-        #     engine="text-davinci-003",  # Or another model like gpt-3.5-turbo
-        #     prompt=input_text,
-        #     max_tokens=100,
-        # )
         response = client.chat.completions.create(
             messages=[{"role": "user", "content": input_text}],
             # Replace with "gpt-4" if you have access and prefer GPT-4
-            # model="gpt-3.5-turbo",
             model=os.getenv("OPENAI_API_VER", "gpt-3.5-turbo"),
             # stream=True,
         )
         # return response.choices[0].text.strip()
         return response.choices[0].message.content
-        # return response.choices[0].delta.content or ""
-    # except Exception as e:
-    #     print(f"Error with OpenAI API: {e}")
-    #     return "Error generating response."
     except openai.APIConnectionError as e:
         print("The server could not be reached")
         print(e.__cause__)  # an underlying Exception, likely raised within httpx.
