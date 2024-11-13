@@ -84,8 +84,8 @@ def handle_request(input_text):
     try:
         response = client.chat.completions.create(
             messages=[{"role": "user", "content": input_text}],
-            # Replace with "gpt-4" if you have access and prefer GPT-4
-            model=os.getenv("OPENAI_API_VER", "gpt-3.5-turbo"),
+            # Replace with "gpt-4o" if you have access and prefer GPT-4o
+            model=os.getenv("OPENAI_API_VER", "gpt-4o-mini"),
             # stream=True,
         )
         # return response.choices[0].text.strip()
