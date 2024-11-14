@@ -1,0 +1,24 @@
+// backend/src/controllers/authController.ts
+import { Request, Response } from 'express';
+import jwt from 'jsonwebtoken';
+import User from '../models/userModel';
+
+const JWT_SECRET = process.env.JWT_SECRET || 'your_jwt_secret';
+
+export const register = async (req: Request, res: Response) => {
+    const { username, password } = req.body;
+    const user = await User.create({ username, password });
+    res.json({ message: 'User registered successfully', user });
+};
+
+export const login = async (req: Request, res: Response) => {
+    const { username, password } = req.body;
+    const user = await User.findOne({ where: { username } });
+
+    if (!user || !(await user.validatePassword(password))) {
+        return res.status(401).json({ message: 'Invalid credentials' });
+    }
+
+    const token = jwt.sign({ userId: user.id }, JWT_SECRET, { expiresIn: '1h' });
+    res.json({ message: 'Login successful', token });
+};
