@@ -1,3 +1,5 @@
+// Sequelize ORM을 사용하여 MySQL 데이터베이스와 연동된 User 모델을 정의하는 코드입니다. 또한, bcrypt 라이브러리를 사용해 비밀번호를 암호화
+
 import { Sequelize, DataTypes, Model } from 'sequelize';
 import bcrypt from 'bcryptjs';
 import dotenv from 'dotenv';

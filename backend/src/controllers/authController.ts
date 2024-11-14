@@ -1,4 +1,4 @@
-// backend/src/controllers/authController.ts
+// **JWT(JSON Web Token)**를 사용하여 로그인 성공 시 인증 토큰을 생성하여 반환
 import { Request, Response } from 'express';
 import jwt from 'jsonwebtoken';
 import User from '../models/userModel';
