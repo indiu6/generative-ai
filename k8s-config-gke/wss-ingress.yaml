@@ -1,0 +1,25 @@
+# apiVersion: networking.k8s.io/v1
+# kind: Ingress
+# metadata:
+#   name: wss-ingress
+#   namespace: default
+#   annotations:
+#     networking.gke.io/managed-certificates: 'my-managed-cert'
+#     # kubernetes.io/ingress.global-static-ip-name: "YOUR-STATIC-IP" # Optional: Set if you have a reserved static IP
+#     kubernetes.io/ingress.allow-http: 'false' # Redirect HTTP to HTTPS
+# spec:
+#   rules:
+#     # - host: aiplay.dev
+#     - http:
+#         paths:
+#           - path: /
+#             pathType: Prefix
+#             backend:
+#               service:
+#                 name: backend-wss-service
+#                 port:
+#                   number: 8081
+#   # tls:
+#   #   - hosts:
+#   #       - aiplay.dev
+#   #     secretName: my-managed-cert
