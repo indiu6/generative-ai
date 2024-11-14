@@ -16,7 +16,9 @@ export const login = async (req: Request, res: Response) => {
     const user = await User.findOne({ where: { username } });
 
     if (!user || !(await user.validatePassword(password))) {
-        return res.status(401).json({ message: 'Invalid credentials' });
+        // return res.status(401).json({ message: 'Invalid credentials' });
+        res.status(401).json({ message: 'Invalid credentials' });
+        return;
     }
 
     const token = jwt.sign({ userId: user.id }, JWT_SECRET, { expiresIn: '1h' });
