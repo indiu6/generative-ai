@@ -1,7 +1,7 @@
 apiVersion: networking.gke.io/v1
 kind: ManagedCertificate
 metadata:
-  name: my-managed-cert
+  name: my-managed-cert # Ensure this matches exactly in the ingress
 spec:
   # Replace with your actual domain
   domains:
