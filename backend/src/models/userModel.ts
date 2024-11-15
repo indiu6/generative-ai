@@ -11,7 +11,7 @@ const sequelize = new Sequelize(
     process.env.MYSQL_DB_USER as string,
     process.env.MYSQL_DB_PASSWORD as string,
     {
-        host: process.env.MYSQL_DB_HOST,
+        host: process.env.MYSQL_DB_HOST || 'mysql',
         dialect: process.env.MYSQL_DB_DIALECT as 'mysql' | 'mariadb',
     }
 );
