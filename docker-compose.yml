@@ -6,10 +6,10 @@
 # KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: Specifies the protocol used, in this case, PLAINTEXT.
 # KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: Set to 1 for a single-node setup (no replication).
 
-# docker-compose up --build
+#! docker-compose up --build
 
 # This command will start both Kafka and Zookeeper in detached mode.
-# docker-compose up -d
+#! docker-compose up -d
 
 # Verifying Kafka Setup: You can confirm Kafka is running by listing topics or checking logs.
 # docker exec -it <kafka_container_id> kafka-topics --bootstrap-server localhost:9092 --list
@@ -80,9 +80,9 @@ services:
       - '8080:8080'
       - '8081:8081'
     depends_on:
-      #   kafka:
-      mysql:
-        condition: service_healthy
+      - kafka
+      # mysql:
+      #   condition: service_healthy
     networks:
       - app-network
 
@@ -97,28 +97,27 @@ services:
     networks:
       - app-network
 
-  mysql:
-    image: mysql:latest
-    environment:
-      MYSQL_ROOT_PASSWORD: ${MYSQL_DB_ROOT_PASSWORD}
-      MYSQL_DATABASE: ${MYSQL_DB_NAME}
-      MYSQL_USER: ${MYSQL_DB_USER}
-      MYSQL_PASSWORD: ${MYSQL_DB_PASSWORD}
-    ports:
-      - '3306:3306'
-    volumes:
-      - mysql_data:/var/lib/mysql
-    networks:
-      - app-network
-    healthcheck:
-      test: ['CMD-SHELL', 'mysqladmin ping -h localhost']
-      interval: 10s
-      timeout: 5s
-      retries: 3
+  # mysql:
+  #   image: mysql:latest
+  #   environment:
+  #     MYSQL_ROOT_PASSWORD: ${MYSQL_DB_ROOT_PASSWORD}
+  #     MYSQL_DATABASE: ${MYSQL_DB_NAME}
+  #     MYSQL_USER: ${MYSQL_DB_USER}
+  #     MYSQL_PASSWORD: ${MYSQL_DB_PASSWORD}
+  #   ports:
+  #     - '3306:3306'
+  #   volumes:
+  #     - mysql_data:/var/lib/mysql
+  #   networks:
+  #     - app-network
+  #   healthcheck:
+  #     test: ['CMD-SHELL', 'mysqladmin ping -h localhost']
+  #     interval: 10s
+  #     timeout: 5s
+  #     retries: 3
 
 networks:
   app-network:
     driver: bridge
-
-volumes:
-  mysql_data:
+# volumes:
+#   mysql_data:

@@ -4,6 +4,11 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 [Gen-AI App](http://aa67ee659414d41718e15e260bb162e6-1825036394.us-east-1.elb.amazonaws.com).
 
+```json
+"proxy": "http://backend:8080",
+"proxy": "http://backend-service:8080",
+```
+
 ```bash
 docker build -t frontend .
 ```
