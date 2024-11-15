@@ -6,6 +6,8 @@
 # KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: Specifies the protocol used, in this case, PLAINTEXT.
 # KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: Set to 1 for a single-node setup (no replication).
 
+#! docker-compose up --build
+
 # This command will start both Kafka and Zookeeper in detached mode.
 # docker-compose up -d
 
@@ -59,6 +61,11 @@ services:
     build:
       context: ./llm_service
       dockerfile: Dockerfile
+    logging:
+      driver: 'json-file'
+      options:
+        max-size: '10m'
+        max-file: '3'
     env_file:
       - ./llm_service/.env
     depends_on:
