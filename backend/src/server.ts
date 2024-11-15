@@ -69,15 +69,14 @@ wss.on('connection', (ws: WSClient) => {
     })
 })
 
-// Start HTTP server
-// server.listen(wsPort, () => {
-//     console.log(`WS Server is running on port ${wsPort}`)
-// })
-
 // Start WebSocket server
 wss.on('listening', () => {
     console.log(`WebSocket server is running on port ${wsPort}`);
 });
+
+wss.on('error', (error) => {
+    console.error('WebSocket server error:', error)
+})
 
 // Function to configure Kafka topic retention policy
 const configureTopicRetention = async (): Promise<void> => {
@@ -102,34 +101,51 @@ const configureTopicRetention = async (): Promise<void> => {
     } catch (error) {
         console.error('Error setting topic configuration:', error)
     } finally {
-        await admin.disconnect()
+        try {
+            await admin.disconnect()
+        } catch (disconnectError) {
+            console.error('Error disconnecting Kafka admin client:', disconnectError)
+        }
     }
 }
 
 // Start Kafka consumer to listen on `response-topic`
 const startConsumer = async (): Promise<void> => {
-    await consumer.connect()
-    await consumer.subscribe({ topic: 'response-topic', fromBeginning: false })
+    try {
+        await consumer.connect()
+        await consumer.subscribe({ topic: 'response-topic', fromBeginning: false })
+    } catch (error) {
+        console.error('Error connecting Kafka consumer:', error)
+        return
+    }
 
-    await consumer.run({
-        eachMessage: async ({ message }) => {
+    try {
+        await consumer.run({
+            eachMessage: async ({ message }) => {
+                try {
+                    const responseText: string = message.value ? message.value.toString() : ''
+                    console.log(`Received responseText: ${responseText}`)
 
-            // console.log(`Received message: ${message}`)
-
-            const responseText: string = message.value ? message.value.toString() : ''
-            console.log(`Received responseText: ${responseText}`)
-
-            // Broadcast message to all WebSocket clients
-            wss.clients.forEach((client) => {
-                if (client.readyState === WebSocket.OPEN) {
-                    // client.send(JSON.stringify({ response: responseText }))
-                    client.send(responseText)
+                    // Broadcast message to all WebSocket clients
+                    wss.clients.forEach((client) => {
+                        if (client.readyState === WebSocket.OPEN) {
+                            client.send(responseText)
+                        }
+                    })
+                } catch (processError) {
+                    console.error('Error processing Kafka message:', processError)
                 }
-            })
-        },
-    })
+            },
+        })
+    } catch (error) {
+        console.error('Error running Kafka consumer:', error)
+    }
 }
 
 // Initialize topic configuration and consumer
-configureTopicRetention().catch(console.error)
-startConsumer().catch(console.error)
+configureTopicRetention().catch((error) => {
+    console.error('Error configuring topic retention:', error)
+})
+startConsumer().catch((error) => {
+    console.error('Error starting Kafka consumer:', error)
+})
