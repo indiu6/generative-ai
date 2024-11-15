@@ -125,12 +125,14 @@ def handle_request(input_text):
         )
         # return response.choices[0].text.strip()
         return response.choices[0].message.content
+    except openai.AuthenticationError:
+        logging.error("Authentication error: Invalid or missing API key.")
     except openai.APIConnectionError as e:
-        print("The server could not be reached")
-        print(e.__cause__)  # an underlying Exception, likely raised within httpx.
+        logging.error("The server could not be reached")
+        logging.error(e.__cause__)
     except openai.RateLimitError as e:
-        print("A 429 status code was received; we should back off a bit.")
-        print(e.response)
+        logging.error("Rate limit exceeded; back off and retry later.")
+        logging.error(e.response)
     except openai.APIStatusError as e:
         logging.error(f"Non-200-range status code received: {e.status_code}")
         logging.error(e.response)
