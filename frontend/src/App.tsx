@@ -11,6 +11,7 @@ import {
 } from '@mui/material'
 import ReactMarkdown from 'react-markdown'
 import LoginForm from './components/LoginForm'
+import FormTest from './components/FormTest'
 
 type Message = {
   role: 'user' | 'bot'
@@ -142,7 +143,8 @@ const App: React.FC = () => {
   return (
     <>
       {/* <LoginForm onSuccess={handleLoginSuccess} /> */}
-      <LoginForm />
+      {/* <LoginForm /> */}
+      <FormTest />
 
       <Box
         display="flex"

@@ -31,8 +31,8 @@ app.use(express.json())
 app.use('/auth', authRoutes);
 
 // HTTP endpoint to receive prompt requests
-app.post('/api/generate', async (req: Request, res: Response) => {
-    const { input }: { input: string } = req.body
+app.post('/api/generate', async (req: Request<{}, {}, { input: string }>, res: Response) => {
+    const { input } = req.body;
 
     try {
         // Send input to Kafka topic
@@ -44,7 +44,7 @@ app.post('/api/generate', async (req: Request, res: Response) => {
         await producer.disconnect()
 
         res.status(202).send({ message: 'Request is being processed' })
-    } catch (error) {
+    } catch (error: unknown) {
         console.error('Error sending to Kafka:', error)
         res.status(500).send({ error: 'Failed to process request' })
     }
@@ -98,12 +98,12 @@ const configureTopicRetention = async (): Promise<void> => {
             })
         }
         console.log('Kafka topic retention policy set to 10 minutes')
-    } catch (error) {
+    } catch (error: unknown) {
         console.error('Error setting topic configuration:', error)
     } finally {
         try {
             await admin.disconnect()
-        } catch (disconnectError) {
+        } catch (disconnectError: unknown) {
             console.error('Error disconnecting Kafka admin client:', disconnectError)
         }
     }
@@ -114,7 +114,7 @@ const startConsumer = async (): Promise<void> => {
     try {
         await consumer.connect()
         await consumer.subscribe({ topic: 'response-topic', fromBeginning: false })
-    } catch (error) {
+    } catch (error: unknown) {
         console.error('Error connecting Kafka consumer:', error)
         return
     }
@@ -132,20 +132,20 @@ const startConsumer = async (): Promise<void> => {
                             client.send(responseText)
                         }
                     })
-                } catch (processError) {
+                } catch (processError: unknown) {
                     console.error('Error processing Kafka message:', processError)
                 }
             },
         })
-    } catch (error) {
+    } catch (error: unknown) {
         console.error('Error running Kafka consumer:', error)
     }
 }
 
 // Initialize topic configuration and consumer
-configureTopicRetention().catch((error) => {
+configureTopicRetention().catch((error: unknown) => {
     console.error('Error configuring topic retention:', error)
 })
-startConsumer().catch((error) => {
+startConsumer().catch((error: unknown) => {
     console.error('Error starting Kafka consumer:', error)
 })
