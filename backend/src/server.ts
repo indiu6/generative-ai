@@ -39,6 +39,9 @@ app.post('/api/generate', async (req: Request<{}, {}, { input: string }>, res: R
         await producer.connect()
         await producer.send({
             topic: 'generate-text',
+            // 여기서 JSON.stringify({ input })는 input 값을 객체의 속성으로 포함하는 JSON 문자열을 생성합니다. 예를 들어, input 값이 "hello"라면, JSON.stringify({ input })는 {"input":"hello"}라는 문자열을 생성합니다.
+            // 이렇게 하는 이유는 Kafka 메시지의 구조를 명확히 하기 위해서입니다. 메시지를 받을 때, input이라는 속성명을 통해 값을 쉽게 접근할 수 있습니다.
+            // 반면, JSON.stringify(input)를 사용하면 input 값 자체가 JSON 문자열로 변환되지만, 속성명이 없어 메시지 구조가 불명확해질 수 있습니다.
             messages: [{ value: JSON.stringify({ input }) }],
         })
         await producer.disconnect()
@@ -83,6 +86,7 @@ const configureTopicRetention = async (): Promise<void> => {
     await admin.connect()
     try {
         const topicsMetadata = await admin.fetchTopicMetadata({ topics: ['generate-text'] });
+        // falsy 값(예: undefined, null, 빈 문자열, false, 0)
         if (!topicsMetadata.topics.length) {
             await admin.createTopics({
                 topics: [
