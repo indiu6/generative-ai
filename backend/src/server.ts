@@ -4,6 +4,7 @@ import dotenv from 'dotenv'
 import WebSocket, { WebSocketServer, WebSocket as WSClient } from 'ws'
 import http, { Server as HTTPServer } from 'http'
 import cors from 'cors'
+import authRoutes from './routes/authRoutes';
 
 // npx ts-node src/server.js
 
@@ -27,22 +28,26 @@ const admin: Admin = kafka.admin()
 
 // Middleware
 app.use(express.json())
+app.use('/auth', authRoutes);
 
 // HTTP endpoint to receive prompt requests
-app.post('/api/generate', async (req: Request, res: Response) => {
-    const { input }: { input: string } = req.body
+app.post('/api/generate', async (req: Request<{}, {}, { input: string }>, res: Response) => {
+    const { input } = req.body;
 
     try {
         // Send input to Kafka topic
         await producer.connect()
         await producer.send({
             topic: 'generate-text',
+            // 여기서 JSON.stringify({ input })는 input 값을 객체의 속성으로 포함하는 JSON 문자열을 생성합니다. 예를 들어, input 값이 "hello"라면, JSON.stringify({ input })는 {"input":"hello"}라는 문자열을 생성합니다.
+            // 이렇게 하는 이유는 Kafka 메시지의 구조를 명확히 하기 위해서입니다. 메시지를 받을 때, input이라는 속성명을 통해 값을 쉽게 접근할 수 있습니다.
+            // 반면, JSON.stringify(input)를 사용하면 input 값 자체가 JSON 문자열로 변환되지만, 속성명이 없어 메시지 구조가 불명확해질 수 있습니다.
             messages: [{ value: JSON.stringify({ input }) }],
         })
         await producer.disconnect()
 
         res.status(202).send({ message: 'Request is being processed' })
-    } catch (error) {
+    } catch (error: unknown) {
         console.error('Error sending to Kafka:', error)
         res.status(500).send({ error: 'Failed to process request' })
     }
@@ -81,6 +86,7 @@ const configureTopicRetention = async (): Promise<void> => {
     await admin.connect()
     try {
         const topicsMetadata = await admin.fetchTopicMetadata({ topics: ['generate-text'] });
+        // falsy 값(예: undefined, null, 빈 문자열, false, 0)
         if (!topicsMetadata.topics.length) {
             await admin.createTopics({
                 topics: [
@@ -96,12 +102,12 @@ const configureTopicRetention = async (): Promise<void> => {
             })
         }
         console.log('Kafka topic retention policy set to 10 minutes')
-    } catch (error) {
+    } catch (error: unknown) {
         console.error('Error setting topic configuration:', error)
     } finally {
         try {
             await admin.disconnect()
-        } catch (disconnectError) {
+        } catch (disconnectError: unknown) {
             console.error('Error disconnecting Kafka admin client:', disconnectError)
         }
     }
@@ -112,7 +118,7 @@ const startConsumer = async (): Promise<void> => {
     try {
         await consumer.connect()
         await consumer.subscribe({ topic: 'response-topic', fromBeginning: false })
-    } catch (error) {
+    } catch (error: unknown) {
         console.error('Error connecting Kafka consumer:', error)
         return
     }
@@ -130,20 +136,20 @@ const startConsumer = async (): Promise<void> => {
                             client.send(responseText)
                         }
                     })
-                } catch (processError) {
+                } catch (processError: unknown) {
                     console.error('Error processing Kafka message:', processError)
                 }
             },
         })
-    } catch (error) {
+    } catch (error: unknown) {
         console.error('Error running Kafka consumer:', error)
     }
 }
 
 // Initialize topic configuration and consumer
-configureTopicRetention().catch((error) => {
+configureTopicRetention().catch((error: unknown) => {
     console.error('Error configuring topic retention:', error)
 })
-startConsumer().catch((error) => {
+startConsumer().catch((error: unknown) => {
     console.error('Error starting Kafka consumer:', error)
 })

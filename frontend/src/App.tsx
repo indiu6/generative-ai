@@ -1,15 +1,9 @@
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useState, useEffect } from 'react'
+import { Container, Box, Typography } from '@mui/material'
+import FormTest from './components/FormTest'
+import ChatMessages from './components/ChatMessages'
+import MessageForm from './components/MessageForm'
 import axios from 'axios'
-import {
-  Container,
-  Box,
-  TextField,
-  Button,
-  Paper,
-  Typography,
-  CircularProgress,
-} from '@mui/material'
-import ReactMarkdown from 'react-markdown'
 
 type Message = {
   role: 'user' | 'bot'
@@ -17,10 +11,13 @@ type Message = {
 }
 
 const App: React.FC = () => {
-  const [input, setInput] = useState<string>('')
   const [messages, setMessages] = useState<Message[]>([])
   const [loading, setLoading] = useState<boolean>(false)
-  const messagesEndRef = useRef<HTMLDivElement>(null)
+
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false)
+  const handleLoginSuccess = () => {
+    setIsLoggedIn(true)
+  }
 
   useEffect(() => {
     try {
@@ -32,7 +29,6 @@ const App: React.FC = () => {
 
       // Establish WebSocket connection
       const socket = new WebSocket(wsUrl)
-
       console.log('Attempting to connect to WebSocket:', socket.url)
 
       // WebSocket connection opened
@@ -100,14 +96,7 @@ const App: React.FC = () => {
     }
   }, [])
 
-  useEffect(() => {
-    if (messagesEndRef.current) {
-      messagesEndRef.current.scrollIntoView({ behavior: 'smooth' })
-    }
-  }, [messages])
-
-  const handleSubmit = async (event: React.FormEvent) => {
-    event.preventDefault()
+  const handleSendMessage = async (input: string) => {
     if (!input.trim()) return // Prevent empty submissions
 
     // Add user's message to the chat
@@ -115,12 +104,10 @@ const App: React.FC = () => {
       ...prevMessages,
       { role: 'user', content: input },
     ])
-
     setLoading(true)
 
     try {
       await axios.post('/api/generate', { input })
-      setInput('') // Clear the input field after submission
     } catch (error) {
       console.error('Error fetching response:', error)
       setMessages((prevMessages) => [
@@ -133,119 +120,37 @@ const App: React.FC = () => {
   }
 
   return (
-    <Box
-      display="flex"
-      justifyContent="center"
-      alignItems="center"
-      minHeight="100vh"
-      style={{ backgroundColor: '#f0f0f5' }} // Optional background color for the whole view
-    >
-      <Container
-        maxWidth="sm"
-        style={{
-          paddingTop: '20px',
-          paddingBottom: '20px',
-          fontFamily: 'Arial, sans-serif',
-          backgroundColor: '#f9f9fb',
-          borderRadius: '8px',
-        }}
-      >
-        <Typography variant="h4" component="h1" align="center" gutterBottom>
-          Generative AI Playground
-        </Typography>
+    <>
+      {/* <LoginForm onSuccess={handleLoginSuccess} /> */}
+      {/* <LoginForm /> */}
+      <FormTest />
 
-        <Paper
-          variant="outlined"
+      <Box
+        display="flex"
+        justifyContent="center"
+        alignItems="center"
+        minHeight="100vh"
+        style={{ backgroundColor: '#f0f0f5' }} // Optional background color for the whole view
+      >
+        <Container
+          maxWidth="sm"
           style={{
-            maxHeight: '60vh',
-            overflowY: 'auto',
-            padding: '10px',
-            marginBottom: '20px',
-            backgroundColor: '#ffffff',
-            boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+            paddingTop: '20px',
+            paddingBottom: '20px',
+            fontFamily: 'Arial, sans-serif',
+            backgroundColor: '#f9f9fb',
+            borderRadius: '8px',
           }}
         >
-          {messages.length === 0 ? (
-            <Box
-              display="flex"
-              justifyContent="center"
-              alignItems="center"
-              height="100%"
-            >
-              <Typography variant="body1" color="textSecondary">
-                Welcome! Type a question below to start chatting with the AI.
-              </Typography>
-            </Box>
-          ) : (
-            messages.map((msg, index) => (
-              <Box
-                key={index}
-                display="flex"
-                justifyContent={msg.role === 'user' ? 'flex-end' : 'flex-start'}
-                marginY={1}
-              >
-                <Paper
-                  elevation={2}
-                  style={{
-                    padding: '10px',
-                    borderRadius: '10px',
-                    backgroundColor:
-                      msg.role === 'user' ? '#f6e6d8' : '#e8e8e8',
-                    maxWidth: '80%',
-                    transition: 'transform 0.2s ease',
-                  }}
-                  className="message"
-                >
-                  <Typography variant="body1" color="textPrimary">
-                    {msg.role === 'bot' ? (
-                      <ReactMarkdown>{msg.content}</ReactMarkdown>
-                    ) : (
-                      msg.content
-                    )}
-                  </Typography>
-                </Paper>
-              </Box>
-            ))
-          )}
+          <Typography variant="h4" component="h1" align="center" gutterBottom>
+            Generative AI Playground
+          </Typography>
 
-          {loading && (
-            <Box display="flex" justifyContent="center" paddingY={1}>
-              <CircularProgress size={20} />
-            </Box>
-          )}
-
-          <div ref={messagesEndRef} />
-        </Paper>
-
-        <Box component="form" onSubmit={handleSubmit} display="flex" gap={1}>
-          <TextField
-            variant="outlined"
-            placeholder="Message ChatGPT..."
-            fullWidth
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
-            style={{ backgroundColor: '#ffffff', borderRadius: '4px' }}
-          />
-          <Button
-            type="submit"
-            variant="contained"
-            style={{
-              backgroundColor: '#d48a5f',
-              color: '#ffffff',
-              transition: 'background-color 0.3s ease, transform 0.2s ease',
-            }}
-            onMouseOver={(e) =>
-              (e.currentTarget.style.backgroundColor = '#b76b44')
-            }
-            onMouseOut={(e) =>
-              (e.currentTarget.style.backgroundColor = '#d48a5f')
-            }
-          >
-            Send
-          </Button>
-        </Box>
-      </Container>
-    </Box>
+          <ChatMessages messages={messages} loading={loading} />
+          <MessageForm handleSendMessage={handleSendMessage} />
+        </Container>
+      </Box>
+    </>
   )
 }
 

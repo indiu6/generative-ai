@@ -3,3 +3,5 @@
 .env
 llm_service/.DS_Store
 .DS_Store
+frontend/src/components/FormTest.tsx
+frontend/src/components/tic-tac-toe.js
