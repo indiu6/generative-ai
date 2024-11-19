@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react'
 import { Container, Box, Typography } from '@mui/material'
-import FormTest from './components/FormTest'
+import FormTest from './exer/FormTest'
 import ChatMessages from './components/ChatMessages'
 import MessageForm from './components/MessageForm'
 import axios from 'axios'
+import ItemList from './exer/FetchTest'
+import Test from './exer/test'
 
 type Message = {
   role: 'user' | 'bot'
@@ -22,7 +24,8 @@ const App: React.FC = () => {
   useEffect(() => {
     try {
       // Determine WebSocket protocol based on environment
-      const wsProtocol = window.location.protocol === 'https:' ? 'wss' : 'ws'
+      //   const wsProtocol = window.location.protocol === 'https:' ? 'wss' : 'ws'
+      const wsProtocol = 'ws'
       const wsUrl = `${wsProtocol}://${
         process.env.REACT_APP_WEBSOCKET_URL || 'localhost:8081'
       }`
@@ -43,6 +46,7 @@ const App: React.FC = () => {
           const data = JSON.parse(event.data)
 
           if (data.response) {
+            setLoading(false)
             setMessages((prevMessages) => {
               // If last message is from the bot, update its content
               if (
@@ -114,8 +118,9 @@ const App: React.FC = () => {
         ...prevMessages,
         { role: 'bot', content: 'An error occurred.' },
       ])
-    } finally {
       setLoading(false)
+    } finally {
+      //   setLoading(false)
     }
   }
 
@@ -123,7 +128,9 @@ const App: React.FC = () => {
     <>
       {/* <LoginForm onSuccess={handleLoginSuccess} /> */}
       {/* <LoginForm /> */}
-      <FormTest />
+      {/* <FormTest /> */}
+      {/* <ItemList /> */}
+      {/* <Test /> */}
 
       <Box
         display="flex"
@@ -133,7 +140,7 @@ const App: React.FC = () => {
         style={{ backgroundColor: '#f0f0f5' }} // Optional background color for the whole view
       >
         <Container
-          maxWidth="sm"
+          maxWidth="md"
           style={{
             paddingTop: '20px',
             paddingBottom: '20px',

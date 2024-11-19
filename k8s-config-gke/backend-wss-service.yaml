@@ -1,16 +1,16 @@
-# apiVersion: v1
-# kind: Service
-# metadata:
-#   name: backend-wss-service
-#   annotations:
-#     cloud.google.com/backend-config: '{"default": "websocket-backendconfig"}'
-#   labels:
-#     app: backend
-# spec:
-#   selector:
-#     app: backend
-#   ports:
-#     - protocol: TCP
-#       port: 8081 # Service port
-#       targetPort: 8081 # Port in the container
-#   type: LoadBalancer
+apiVersion: v1
+kind: Service
+metadata:
+  name: backend-wss-service
+  annotations:
+    cloud.google.com/backend-config: '{"default": "websocket-backendconfig"}'
+  labels:
+    app: backend
+spec:
+  selector:
+    app: backend
+  ports:
+    - protocol: TCP
+      port: 8081 # Service port
+      targetPort: 8081 # Port in the container
+  type: ClusterIP
