@@ -5,6 +5,7 @@
 # ./build_tag_push_docker_images.sh
 # kubectl apply -f k8s-config-gke/
 # kubectl rollout restart deployment frontend
+# ws-static 35.226.71.217 EXTERNAL us-central1
 
 # Variables
 PROJECT_ID=genai-440722

@@ -4,4 +4,5 @@
 llm_service/.DS_Store
 .DS_Store
 frontend/src/components/FormTest.tsx
-frontend/src/components/tic-tac-toe.js
+frontend/src/exer/
+frontend/src/components/FetchTest.tsx
