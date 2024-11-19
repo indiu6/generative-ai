@@ -24,7 +24,8 @@ const App: React.FC = () => {
   useEffect(() => {
     try {
       // Determine WebSocket protocol based on environment
-      const wsProtocol = window.location.protocol === 'https:' ? 'wss' : 'ws'
+      //   const wsProtocol = window.location.protocol === 'https:' ? 'wss' : 'ws'
+      const wsProtocol = 'ws'
       const wsUrl = `${wsProtocol}://${
         process.env.REACT_APP_WEBSOCKET_URL || 'localhost:8081'
       }`
@@ -45,6 +46,7 @@ const App: React.FC = () => {
           const data = JSON.parse(event.data)
 
           if (data.response) {
+            setLoading(false)
             setMessages((prevMessages) => {
               // If last message is from the bot, update its content
               if (
@@ -116,8 +118,9 @@ const App: React.FC = () => {
         ...prevMessages,
         { role: 'bot', content: 'An error occurred.' },
       ])
-    } finally {
       setLoading(false)
+    } finally {
+      //   setLoading(false)
     }
   }
 

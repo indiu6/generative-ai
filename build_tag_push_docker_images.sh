@@ -16,8 +16,8 @@ REGION=us-central1
 declare -A IMAGES
 IMAGES=(
   ["frontend"]="frontend/"
-  ["backend"]="backend/"
-  ["llm_service"]="llm_service/"
+#   ["backend"]="backend/"
+#   ["llm_service"]="llm_service/"
 )
 
 # Authenticate Docker to Artifact Registry
