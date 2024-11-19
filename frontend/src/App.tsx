@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react'
 import { Container, Box, Typography } from '@mui/material'
-import FormTest from './components/FormTest'
+import FormTest from './exer/FormTest'
 import ChatMessages from './components/ChatMessages'
 import MessageForm from './components/MessageForm'
 import axios from 'axios'
-import ItemList from './components/FetchTest'
+import ItemList from './exer/FetchTest'
 import Test from './exer/test'
 
 type Message = {
