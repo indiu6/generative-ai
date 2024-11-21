@@ -6,6 +6,7 @@ import MessageForm from './components/MessageForm'
 import axios from 'axios'
 import ItemList from './exer/FetchTest'
 import Test from './exer/test'
+import UserFormTest from './exer/UserFormTest'
 
 type Message = {
   role: 'user' | 'bot'
@@ -131,6 +132,7 @@ const App: React.FC = () => {
       {/* <FormTest /> */}
       {/* <ItemList /> */}
       {/* <Test /> */}
+      <UserFormTest />
 
       <Box
         display="flex"

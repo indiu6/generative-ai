@@ -23,11 +23,12 @@ The app will be deployed using Kubernetes, AWS EKS, ECR and monitored with DataD
    - Integrate _WebSocket_ and configure code based on [OpenAI Realtime API (beta) doc](https://platform.openai.com/docs/guides/realtime/overview)
    - Check usage, bill, balance of my API key, [OpenAI API Usage check](https://platform.openai.com/settings/organization/usage)
 4. **Messaging**: _Apache Kafka_ to handle message queues and asynchronous tasks.
-5. **Storage**: (_TBD_)
+5. **Authentication**: User authentication using _JWT_ or _OAuth2_ - Save their message history and ensure a personalized experience while maintaining secure access to saved data. (_TBD_)
+6. **Storage**: (_TBD_)
    - _Postgres_ for structured data like user profiles, logs, and configuration.
    - _Pinecone_ for vector embeddings to store and retrieve contextual information.
    - _ElasticSearch_ for fast, keyword-based search.
-6. **Deployment**: _Kubernetes_ for _Docker_ container orchestration, _AWS_ EKS, ECR for infrastructure, and _DataDog_ for monitoring
+7. **Deployment**: _Kubernetes_ for _Docker_ container orchestration, _AWS_ EKS, ECR for infrastructure, and _DataDog_ (_TBD_) for monitoring
 
 ## Docker and Docker-Compose Setup for _Dev_
 
