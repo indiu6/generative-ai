@@ -28,6 +28,8 @@ const admin: Admin = kafka.admin()
 
 // Middleware
 app.use(express.json())
+
+//! JWT Auth route
 app.use('/auth', authRoutes);
 
 // HTTP endpoint to receive prompt requests

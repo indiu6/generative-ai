@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react'
 import { Container, Box, Typography } from '@mui/material'
-import FormTest from './exer/FormTest'
 import ChatMessages from './components/ChatMessages'
 import MessageForm from './components/MessageForm'
 import axios from 'axios'
+import LoginForm from './components/LoginForm'
+import FormTest from './exer/FormTest'
 import ItemList from './exer/FetchTest'
 import Test from './exer/test'
 import UserFormTest from './exer/UserFormTest'
@@ -128,11 +129,11 @@ const App: React.FC = () => {
   return (
     <>
       {/* <LoginForm onSuccess={handleLoginSuccess} /> */}
-      {/* <LoginForm /> */}
+      <LoginForm />
       {/* <FormTest /> */}
       {/* <ItemList /> */}
       {/* <Test /> */}
-      <UserFormTest />
+      {/* <UserFormTest /> */}
 
       <Box
         display="flex"
