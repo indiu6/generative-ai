@@ -1,7 +1,7 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: wss-ingress
+  name: ws-ingress
   namespace: default
   annotations:
     networking.gke.io/managed-certificates: 'my-managed-cert'
@@ -9,15 +9,15 @@ metadata:
     # kubernetes.io/ingress.allow-http: 'false' # Redirect HTTP to HTTPS
 spec:
   rules:
-    - host: ws.aiplay.dev
-      http:
+    # - host: ws.aiplay.dev
+    - http:
         paths:
           - path: /ws
             pathType: Prefix
             backend:
               service:
-                # name: backend-wss-service
-                name: backend-service
+                name: backend-wss-service
+                # name: backend-service
                 port:
                   number: 8081
   # tls:
