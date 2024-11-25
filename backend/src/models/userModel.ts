@@ -12,7 +12,7 @@ const sequelize = new Sequelize(
     process.env.POSTGRES_USER as string, // PostgreSQL 사용자 이름
     process.env.POSTGRES_PASSWORD as string, // PostgreSQL 비밀번호
     {
-        host: process.env.PG_DB_HOST || 'localhost', // PostgreSQL 호스트
+        host: process.env.POSTGRES_DB_HOST || 'localhost', // PostgreSQL 호스트
         dialect: 'postgres', // PostgreSQL을 사용하기 위한 dialect 설정
     }
 );
