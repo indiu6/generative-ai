@@ -6,14 +6,13 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
-// PostgreSQL 데이터베이스 연결
 const sequelize = new Sequelize(
-    process.env.POSTGRES_DB as string, // PostgreSQL 데이터베이스 이름
-    process.env.POSTGRES_USER as string, // PostgreSQL 사용자 이름
-    process.env.POSTGRES_PASSWORD as string, // PostgreSQL 비밀번호
+    process.env.MYSQL_DB_NAME as string,
+    process.env.MYSQL_DB_USER as string,
+    process.env.MYSQL_DB_PASSWORD as string,
     {
-        host: process.env.POSTGRES_DB_HOST || 'localhost', // PostgreSQL 호스트
-        dialect: 'postgres', // PostgreSQL을 사용하기 위한 dialect 설정
+        host: process.env.MYSQL_DB_HOST || 'mysql',
+        dialect: process.env.MYSQL_DB_DIALECT as 'mysql' | 'mariadb',
     }
 );
 
@@ -60,5 +59,4 @@ User.beforeCreate(async (user: User) => {
 
 // User 모델과 데이터베이스를 동기화하여 테이블이 생성되도록 합니다. 만약 테이블이 존재하지 않으면 새로 생성됩니다.
 sequelize.sync();
-
 export default User;

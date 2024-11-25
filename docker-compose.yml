@@ -6,7 +6,7 @@
 # KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: Specifies the protocol used, in this case, PLAINTEXT.
 # KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: Set to 1 for a single-node setup (no replication).
 
-#! docker-compose up --build
+#! docker-compose up --build / docker-compose build <service_name>
 
 # This command will start both Kafka and Zookeeper in detached mode.
 #! docker-compose up -d
@@ -86,7 +86,12 @@ services:
       - '8081:8081'
     depends_on:
       - kafka
+      - postgres
+      # kafka:
+      #   condition: service_healthy
       # mysql:
+      #   condition: service_healthy
+      # postgres:
       #   condition: service_healthy
     networks:
       - app-network
@@ -121,8 +126,28 @@ services:
   #     timeout: 5s
   #     retries: 3
 
+  postgres:
+    image: postgres:latest
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    ports:
+      - '5432:5432'
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - app-network
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U postgres']
+      interval: 10s
+      timeout: 5s
+      retries: 3
+
 networks:
   app-network:
     driver: bridge
 # volumes:
 #   mysql_data:
+volumes:
+  postgres_data:

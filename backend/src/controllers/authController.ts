@@ -8,6 +8,9 @@ const JWT_SECRET = process.env.JWT_SECRET || 'your_jwt_secret';
 export const register = async (req: Request, res: Response) => {
     const { username, password } = req.body;
     const user = await User.create({ username, password });
+
+    console.log('User registered successfully', user);
+
     res.json({ message: 'User registered successfully', user });
 };
 
@@ -22,5 +25,9 @@ export const login = async (req: Request, res: Response) => {
     }
 
     const token = jwt.sign({ userId: user.id }, JWT_SECRET, { expiresIn: '1h' });
-    res.json({ message: 'Login successful', token });
+
+    console.log('User logged in successfully', user);
+    console.log('Token:', token);
+
+    res.json({ message: 'Login successful', token, userId: user.id });
 };
