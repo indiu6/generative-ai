@@ -20,29 +20,31 @@ const LoginForm: React.FC = () => {
     e.preventDefault()
     try {
       const response = await login(username, password)
-      console.log(response.data.message)
+      console.log('response.data.message: ', response?.data?.message)
+      console.log('response.data.userId: ', response?.data?.userId)
 
-      localStorage.setItem('token', response.data.token)
+      localStorage.setItem('token', response?.data?.token)
       alert('Login successful')
       navigate('/chat') // 로그인 후 채팅 화면으로 이동
     } catch (error) {
       alert('Invalid credentials')
+      console.error('Login failed:', error)
     }
   }
 
   const handleRegister = async () => {
     try {
       const response = await register(username, password)
-      console.log(response.data.message)
+      console.log('response.data.message: ', response?.data?.message)
 
       alert('Registration successful! You can now log in.')
     } catch (error) {
       alert('Registration failed. Please try again.')
+      console.error('Registration failed:', error)
     }
   }
 
   const handleGuestStart = () => {
-    alert('Starting as a guest!')
     navigate('/chat') // 게스트로 시작할 때 채팅 화면으로 이동
   }
 

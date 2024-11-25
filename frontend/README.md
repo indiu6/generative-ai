@@ -4,10 +4,14 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 [Gen-AI App](http://aa67ee659414d41718e15e260bb162e6-1825036394.us-east-1.elb.amazonaws.com).
 
+## For Local Docker-Compose Test
+
 ```json
 "proxy": "http://backend:8080", // for docker local test
 "proxy": "http://backend-service:8080", // for k8s ingress
 ```
+
+Change .env of frontend, llm_service
 
 ```bash
 docker build -t frontend .
