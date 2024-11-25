@@ -8,9 +8,9 @@ dotenv.config();
 
 // PostgreSQL 데이터베이스 연결
 const sequelize = new Sequelize(
-    process.env.PG_DB_NAME as string, // PostgreSQL 데이터베이스 이름
-    process.env.PG_DB_USER as string, // PostgreSQL 사용자 이름
-    process.env.PG_DB_PASSWORD as string, // PostgreSQL 비밀번호
+    process.env.POSTGRES_DB as string, // PostgreSQL 데이터베이스 이름
+    process.env.POSTGRES_USER as string, // PostgreSQL 사용자 이름
+    process.env.POSTGRES_PASSWORD as string, // PostgreSQL 비밀번호
     {
         host: process.env.PG_DB_HOST || 'localhost', // PostgreSQL 호스트
         dialect: 'postgres', // PostgreSQL을 사용하기 위한 dialect 설정
