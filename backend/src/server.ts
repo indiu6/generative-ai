@@ -14,6 +14,14 @@ import authRoutes from './routes/authRoutes';
 dotenv.config()
 
 const app = express()
+
+// Add CORS middleware
+app.use(cors({
+    origin: 'http://localhost:3000', // 프론트엔드 주소
+    methods: ['GET', 'POST', 'PUT', 'DELETE'], // 허용할 메서드들
+    credentials: true, // 쿠키 등을 포함한 인증 정보 허용
+}));
+
 const port: number = parseInt(process.env.PORT || '8080', 10);
 const wsPort: number = parseInt(process.env.WS_PORT || '8081', 10);
 

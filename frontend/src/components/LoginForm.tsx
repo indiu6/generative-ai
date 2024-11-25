@@ -67,7 +67,7 @@ const LoginForm: React.FC = () => {
           }}
         >
           <Typography variant="h5" align="center" gutterBottom>
-            Login
+            Generative AI Play
           </Typography>
           <Box
             component="form"
