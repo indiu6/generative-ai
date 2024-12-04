@@ -74,7 +74,7 @@ services:
         condition: service_healthy
     networks:
       - app-network
-
+    restart: always # if the container stops, restart it
   backend:
     build:
       context: ./backend
