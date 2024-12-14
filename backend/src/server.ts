@@ -4,7 +4,7 @@ import dotenv from 'dotenv'
 import WebSocket, { WebSocketServer, WebSocket as WSClient } from 'ws'
 import http, { Server as HTTPServer } from 'http'
 import cors from 'cors'
-import authRoutes from './routes/authRoutes';
+// import authRoutes from './routes/authRoutes';
 
 // npx ts-node src/server.js
 
@@ -38,7 +38,7 @@ const admin: Admin = kafka.admin()
 app.use(express.json())
 
 //! JWT Auth route
-app.use('/auth', authRoutes);
+// app.use('/auth', authRoutes);
 
 // HTTP endpoint to receive prompt requests
 app.post('/api/generate', async (req: Request<{}, {}, { input: string }>, res: Response) => {
