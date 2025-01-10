@@ -1,4 +1,4 @@
-# Generative-AI-Playground [Demo](http://34.107.191.55/) ![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)
+# Generative-AI-Playground ![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)
 
 Integrates Node.js with TypeScript and Python for backend services.
 

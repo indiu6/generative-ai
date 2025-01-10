@@ -15,8 +15,8 @@ REGION=us-central1
 # Array of local image names and their tags
 declare -A IMAGES
 IMAGES=(
-#   ["frontend"]="frontend/"
-  ["backend"]="backend/"
+  ["frontend"]="frontend/"
+#   ["backend"]="backend/"
 #   ["llm_service"]="llm_service/"
 )
 
